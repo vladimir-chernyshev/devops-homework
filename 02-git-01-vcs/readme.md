@@ -69,14 +69,22 @@ vi 02-git-01-vcs/terraform/.gitignore
 
 vi 02-git-01-vcs/terraform/readme.md
 
+git add 02-git-01-vcs/terraform/
+
+git commit -m 'Added gitignore'
+
 echo will_be_deleted > 02-git-01-vcs/will_be_deleted.txt
 
 echo will_be_moved > 02-git-01-vcs/will_be_moved.txt
 
 git add 02-git-01-vcs/*
 
+git commit -m 'Prepare to delete and move'
+
 git rm 02-git-01-vcs/will_be_deleted.txt
 
 git mv 02-git-01-vcs/will_be_moved.txt 02-git-01-vcs/has_been_moved.txt
+
+git commit -m 'Prepare to delete and move'
 
 git push
