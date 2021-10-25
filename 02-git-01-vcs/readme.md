@@ -3,6 +3,7 @@
 1. Генерируем пару ключей SSH согласно статьи  [Generating a new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent):
 
  $ssh-keygen -t ed25519 -C "Ваш email"
+
 2. Редактируем ~/.profile, чтобы закрытый ключ автоматически загружался в SSH-агент при запуске WSL:
 
  $vi ~/.profile
@@ -14,6 +15,7 @@
  Посмотреть (и убедиться) после выхода\входа в WSL:
 
  $ssh-add -l
+
 3. Добавляем открытый ключ в аккаунт на github.com согласно статьи  [Adding a new SSH key to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account):
 
  $cat ~/.ssh/id_ed25519.pub --> github.com > "Settings" > "SSH & GPG keys"
