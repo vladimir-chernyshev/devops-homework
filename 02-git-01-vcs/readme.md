@@ -20,7 +20,7 @@
 
  $cat ~/.ssh/id_ed25519.pub --> github.com > "Settings" > "SSH & GPG keys"
 
-4. Меняем протокол синхронизации с github.com c HTTP на SSH согласно статьи  [Switching remote URLs from SSH to HTTPS](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account):
+4. Меняем протокол синхронизации с github.com c HTTP на SSH согласно статьи  [Switching remote URLs from SSH to HTTPS](https://docs.github.com/en/get-started/getting-started-with-git/managing-remote-repositories#switching-remote-urls-from-https-to-ssh):
 
  - идем в корень локального репозитория (NB!в WSL содержимое диска С: отображается как точка монтирования /mnt/c)
 
