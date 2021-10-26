@@ -55,6 +55,10 @@ Everything up-to-date
 
 ### Выполнение лабораторной работы согласно задания:
 
+git config --global _user.name_
+
+git config --global user.email _johndoe@example.com_
+
 git add 02-git-01-vcs/readme.md
 
 git status
