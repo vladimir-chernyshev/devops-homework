@@ -4,7 +4,6 @@
 ---
 Для подключения к *gitlab.com* и *bitbucket.org* решено использовать ту же пару ключей, что и для подлючения к *github.com* (занятие 2.1)
 
--
 
 		$cat ~/.ssh/id_ed25519.pub --> gitlab.com > Edit profile > SSH keys
 
@@ -12,7 +11,6 @@
 
 [Gitlab Add an SSH key to your GitLab account](https://docs.gitlab.com/ee/ssh/)
 
--
 
 		$cat ~/.ssh/id_ed25519.pub --> bitbucket.org > Personal settings > SSH keys
 
@@ -70,7 +68,27 @@
 		Branch 'master' set up to track remote branch 'master' from 'gitlab'.
 
 
-Оказывается, по умолчанию на всех трех репозиториях предсуществует бранч master, причем неудаляемый(?). По условиям задачи требуется на всех трех репозиториях создать бранч main.  
+Оказывается, по умолчанию на всех трех репозиториях предсуществует бранч master, причем неудаляемый(?):
+
+-
+		v@G713QE:/mnt/c/Games/code/devops-homework$ git push origin :master
+		To github.com:vladimir-chernyshev/devops-homework.git
+ 		! [remote rejected] master (refusing to delete the current branch: refs/heads/master)
+		error: failed to push some refs to 'git@github.com:vladimir-chernyshev/devops-homework.git'
+-
+		v@G713QE:/mnt/c/Games/code/devops-homework$ git push gitlab :master
+		remote: GitLab: The default branch of a project cannot be deleted.
+		To gitlab.com:vladimir-chernyshev/devops-netology.git
+		 ! [remote rejected] master (pre-receive hook declined)
+		error: failed to push some refs to 'git@gitlab.com:vladimir-chernyshev/devops-netology.git'
+-
+		v@G713QE:/mnt/c/Games/code/devops-homework$ git push bitbucket :master
+		remote: error: refusing to delete the current branch: refs/heads/master
+		To bitbucket.org:vladimir-chernyshev/devops-netology.git
+		 ! [remote rejected] master (deletion of the current branch prohibited)
+		error: failed to push some refs to 'git@bitbucket.org:vladimir-chernyshev/devops-netology.git'
+
+ По условиям задачи требуется на всех трех репозиториях создать бранч main.  
 [Google-Fu](https://stackoverflow.com/questions/4181861/git-message-src-refspec-master-does-not-match-any-when-pushing-commits-in-git/4183856#4183856)
 
 - GitHub:
