@@ -89,7 +89,15 @@
 		error: failed to push some refs to 'git@bitbucket.org:vladimir-chernyshev/devops-netology.git'
 
  По условиям задачи требуется на всех трех репозиториях создать бранч main.  
-[Google-Fu](https://stackoverflow.com/questions/4181861/git-message-src-refspec-master-does-not-match-any-when-pushing-commits-in-git/4183856#4183856)
+Из справки [git-push(1)](https://git-scm.com/docs/git-push):
+>		*git push*<repository> [<refspec>], where
+>		<repository> - parameter can be either a URL or the name of a remote;
+>		format of a <refspec> parameter is an optional plus +, followed by the source object <src>, followed by a colon :, followed by the destination ref <dst>.. The <src> is often the name of the branch you would want to push, such as HEAD (see gitrevisions[7])
+Из справки [gitrevision(7)](https://git-scm.com/docs/gitrevisions):
+>		HEAD names the commit on which you based the changes in the working tree..
+>		@ alone is a shortcut for HEAD
+
+<repository> - названия наших репозиториев, <refspec> конструируем как <src>':'<dst> : '@:main'
 
 - GitHub:
 
