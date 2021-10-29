@@ -154,25 +154,34 @@
 		 * [new branch]      HEAD -> main
 Задание 2
 ---
-Посмотрим историю коммитов:  
+  Посмотрим историю коммитов:  
+
 		$ git log --oneline -5
 		c3ea80f (HEAD -> master, origin/main, gitlab/main, bitbucket/main) one more
 		2e23ac0 Добавил описание refspec
 		3eb4849 (origin/master, origin/HEAD, gitlab/master, bitbucket/master) update readme.md
 		97a7a0f update readme.md
 		8dec4b9 update readme.md  
-Добавим лекговесный тэг к HEAD:
+
+Добавим лекговесный тэг к HEAD:  
+
 		$ git tag v0.0 c3ea80f
+
 Посмотрим результат:
+
 		$ git log --oneline -5
 		c3ea80f (HEAD -> master, tag: v0.0, origin/main, gitlab/main, bitbucket/main) one more
 		2e23ac0 Добавил описание refspec
 		3eb4849 (origin/master, origin/HEAD, gitlab/master, bitbucket/master) update readme.md
 		97a7a0f update readme.md
 		8dec4b9 update readme.md
+
 Добавим аннотированный тэг к HEAD:
+
 		$ git tag -a v0.1 -m 'Annotated tag' c3ea80f
+
 Посмотрим результат:
+
                 $ git log
 		v@G713QE:/mnt/c/Games/code/devops-homework$ git log  -5
 		commit c3ea80f1b2cd481a9d458a7469165e811b39cad3 (HEAD -> master, tag: v0.1, tag: v0.0, origin/main, gitlab/main, bitbucket/main)
@@ -192,6 +201,22 @@
 		Date:   Fri Oct 29 03:05:33 2021 +0500
 		
 		    update readme.md
+
+Заапишем изменения в ветки main c тэгами, в ветки master без тэгов всех трех репозиториев:
+
+		$git add .
+		$git commit -m 'add two tags'
+  - GitHub:
+		$git push origin HEAD:main
+		$git push origin --tags HEAD:main
+		$git push origin HEAD
+  - GitLab:
+		$git push gitlab HEAD:main
+		$git push gitlab --tags HEAD:main
+		$git push gitlab HEAD
+  - Bitbucket
+		$git push bitbucket HEAD:main
+		$git push bitbucket --tags HEAD:main
+		$git push bitbucket HEAD
   
-Задание 3
----
+
