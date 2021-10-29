@@ -244,7 +244,7 @@
 		On branch main
 		[..]
 
-Найдем требуемый коммит в истории:
+Найдем требуемый заданием коммит в истории:
 
 		$ git log --grep="Prepare to delete and move"
 		commit 4f93c266cee4e36a7300d4e23ce9b8c9650144e8
@@ -293,3 +293,30 @@
 Схема коммитов сразу после checkout:
 
 ![Network Graph](img/network-1.png)
+
+		$git add .
+		$git commit -m 'First commit to fix'
+		$git push
+		Enumerating objects: 7, done.
+		Counting objects: 100% (7/7), done.
+		Delta compression using up to 16 threads
+		Compressing objects: 100% (5/5), done.
+		Writing objects: 100% (6/6), 36.27 KiB | 2.59 MiB/s, done.
+		Total 6 (delta 1), reused 0 (delta 0)
+		remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+		To github.com:vladimir-chernyshev/devops-homework.git
+		   4f93c26..342553e  fix -> fix
+
+Схема коммитов после добавления в ветку fix коммита:
+
+![Network Graph](img/network-2.png)
+
+История коммитов после переключения на ветку fix:
+
+		$ git log --oneline -10
+		342553e (HEAD -> fix, origin/fix) First commit to fix
+		4f93c26 Prepare to delete and move
+		48459f2 Added gitignore
+		676064c First commit
+		dfa41b4 First try
+		a188314 Домашнее задание к занятию «1.1 Введение в DevOps»
