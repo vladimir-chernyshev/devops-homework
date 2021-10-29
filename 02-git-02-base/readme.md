@@ -207,19 +207,19 @@
 		$git add .
 		$git commit -m 'add two tags'
 
-  - GitHub:
+- GitHub:
 
 		$git push origin HEAD:main
 		$git push origin --tags HEAD:main
 		$git push origin HEAD
 
-  - GitLab:
+- GitLab:
 
 		$git push gitlab HEAD:main
 		$git push gitlab --tags HEAD:main
 		$git push gitlab HEAD
 
-  - Bitbucket
+- Bitbucket
 
 		$git push bitbucket HEAD:main
 		$git push bitbucket --tags HEAD:main
