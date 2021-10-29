@@ -320,3 +320,21 @@
 		676064c First commit
 		dfa41b4 First try
 		a188314 Домашнее задание к занятию «1.1 Введение в DevOps»
+
+Задание 3бис
+---
+
+Вернемся-таки с ветки *fix* на ветку *main*:
+
+		$ git branch
+		* fix
+		  main
+		  master
+
+		$ git switch main
+		error: Your local changes to the following files would be overwritten by checkout:
+		        02-git-02-base/readme.md
+		Please commit your changes or stash them before you switch branches.
+		Aborting
+
+Делаем как советуют и переключаемся.
