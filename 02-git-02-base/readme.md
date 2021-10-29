@@ -92,12 +92,13 @@
 Из справки [git-push(1)](https://git-scm.com/docs/git-push):
 >		*git push*<repository> [<refspec>], where
 >		<repository> - parameter can be either a URL or the name of a remote;
->		format of a <refspec> parameter is an optional plus +, followed by the source object <src>, followed by a colon :, followed by the destination ref <dst>.. The <src> is often the name of the branch you would want to push, such as HEAD (see gitrevisions[7])
+>		format of a <refspec> parameter is an optional plus +, followed by the source object <src>, followed by a colon :, followed by the destination ref <dst>..
+ The <src> is often the name of the branch you would want to push, such as HEAD (see gitrevisions[7])
 Из справки [gitrevision(7)](https://git-scm.com/docs/gitrevisions):
 >		HEAD names the commit on which you based the changes in the working tree..
 >		@ alone is a shortcut for HEAD
 
-<repository> - названия наших репозиториев, <refspec> конструируем как <src>':'<dst> : '@:main'
+ Названия наших веток \<refspec\> конструируем как \<src\>':'\<dst\> т.е. 'HEAD:main' или '@:main'
 
 - GitHub:
 
@@ -151,3 +152,6 @@
 		remote:
 		To bitbucket.org:vladimir-chernyshev/devops-netology.git
 		 * [new branch]      HEAD -> main
+Задание 2
+---
+
