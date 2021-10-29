@@ -348,4 +348,4 @@
 ---
 Коммит из PyChaarm в github.com ветку *main*:
 
-![Коммит из PyChaarm в github.com](img/github.png)
+![Коммит из PyChaarm в github.com](img/github.png) 
