@@ -143,3 +143,99 @@
 		
 		    prepare for merge and rebase
 		git checkout 61965401eb79e4edc29644d5986059cc1d9fb2a5
+		Note: switching to '61965401eb79e4edc29644d5986059cc1d9fb2a5'.
+		
+		You are in 'detached HEAD' state. You can look around, make experimental
+		changes and commit them, and you can discard any commits you make in this
+		state without impacting any branches by switching back to a branch.
+		
+		If you want to create a new branch to retain commits you create, you may
+		do so (now or later) by using -c with the switch command. Example:
+		
+		  git switch -c <new-branch-name>
+		
+		Or undo this operation with:
+		
+		  git switch -
+		
+		Turn off this advice by setting config variable advice.detachedHead to false
+		
+		HEAD is now at 6196540 prepare for merge and rebase
+
+- Создадим на этом коммите ветку *git-rebase*:
+
+		$ git switch -c git-rebase
+Switched to a new branch 'git-rebase'
+
+- Изменим содержимое файла _rebase.sh_ и отправим коммит в ветку *git-rebase*:
+
+		$cat << EOF > 02-git-03-branching/branching/rebase.sh
+		#!/bin/bash
+		# display command line options
+		
+		count=1
+		for param in "$@"; do
+		    echo "Parameter: $param"
+		    count=$(( $count + 1 ))
+		done
+		
+		echo "====="
+		EOF
+		$git add .
+		$git commit -m 'git-rebase 1'
+		$git push -u origin git-rebase
+		Enumerating objects: 12, done.
+		Counting objects: 100% (12/12), done.
+		Delta compression using up to 16 threads
+		Compressing objects: 100% (6/6), done.
+		Writing objects: 100% (7/7), 2.41 KiB | 274.00 KiB/s, done.
+		Total 7 (delta 1), reused 0 (delta 0)
+		remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+		remote:
+		remote: Create a pull request for 'git-rebase' on GitHub by visiting:
+		remote:      https://github.com/vladimir-chernyshev/devops-homework/pull/new/git-rebase
+		remote:
+		To github.com:vladimir-chernyshev/devops-homework.git
+		 * [new branch]      git-rebase -> git-rebase
+		Branch 'git-rebase' set up to track remote branch 'git-rebase' from 'origin'.
+
+- Заменим строку _echo "Parameter: $param"_ на _echo "Next parameter: $param"_ и сделаем еще один коммит в *git-rebase*:
+
+		$cat << EOF > 02-git-03-branching/branching/rebase.sh
+		#!/bin/bash
+		# display command line options
+		
+		count=1
+		for param in "$@"; do
+		    echo "Next parameter: $param"
+		    count=$(( $count + 1 ))
+		done
+		
+		echo "====="
+		EOF
+		$ git commit -a -m 'git-rebase 2'
+		$ git push
+		Enumerating objects: 11, done.
+		Counting objects: 100% (11/11), done.
+		Delta compression using up to 16 threads
+		Compressing objects: 100% (6/6), done.
+		Writing objects: 100% (6/6), 781 bytes | 130.00 KiB/s, done.
+		Total 6 (delta 3), reused 0 (delta 0)
+		remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+		To github.com:vladimir-chernyshev/devops-homework.git
+		   69504cb..f5494b5  git-rebase -> git-rebase
+
+- Промежуточный итог:
+
+![Снимок репозитория](img/1.png)
+
+Merge
+---
+- Сливаем ветку *git-merge* с веткой *main*
+
+		$git switch main
+		Switched to branch 'main'
+		Your branch is ahead of 'origin/main' by 1 commit.
+		  (use "git push" to publish your local commits)
+		
+
