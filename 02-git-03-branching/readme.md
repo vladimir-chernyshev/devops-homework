@@ -121,4 +121,25 @@
 		$ git add .
 		$ git commit -m 'rebase.sh to main'
 		$ git push -u origin main
+		Enumerating objects: 12, done.
+		Counting objects: 100% (12/12), done.
+		Delta compression using up to 16 threads
+		Compressing objects: 100% (6/6), done.
+		Writing objects: 100% (7/7), 1.75 KiB | 199.00 KiB/s, done.
+		Total 7 (delta 2), reused 0 (delta 0)
+		remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+		To github.com:vladimir-chernyshev/devops-homework.git
+		   2e19f73..7e83f47  main -> main
+		Branch 'main' set up to track remote branch 'main' from 'origin'.
 
+Подготовка файла _rebase.sh_
+---
+- Найдем хэш коммита 'prepare for merge and rebase' и сделаем checkout на него:
+
+		$ git log --grep 'prepare for merge and rebase'
+		commit 61965401eb79e4edc29644d5986059cc1d9fb2a5
+		Author: Vladimir Chernyshev <v.chernyshev@ro.ru>
+		Date:   Mon Nov 1 20:57:41 2021 +0500
+		
+		    prepare for merge and rebase
+		git checkout 61965401eb79e4edc29644d5986059cc1d9fb2a5
