@@ -259,4 +259,33 @@ Rebase
 		Auto-merging 02-git-03-branching/branching/rebase.sh
 		CONFLICT (content): Merge conflict in 02-git-03-branching/branching/rebase.sh
 		Automatic merge failed; fix conflicts and then commit the result.
+		$vi 02-git-03-branching/branching/rebase.sh
 
+			#!/bin/bash
+			# display command line options
+			
+			count=1
+			for param in ""; do
+			<<<<<<< HEAD
+			    echo "$@ Parameter # = "
+			=======
+			    echo "Next parameter: "
+			>>>>>>> git-rebase
+			    count=1
+			done
+			
+			echo "====="
+
+		$git add 02-git-03-branching/branching/rebase.sh
+		$ git commit -m 'rebase'
+		$$ git push
+		Enumerating objects: 19, done.
+		Counting objects: 100% (18/18), done.
+		Delta compression using up to 16 threads
+		Compressing objects: 100% (6/6), done.
+		Writing objects: 100% (7/7), 968 bytes | 107.00 KiB/s, done.
+		Total 7 (delta 2), reused 0 (delta 0)
+		remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+		To github.com:vladimir-chernyshev/devops-homework.git
+		   43db1f4..45c90e6  main -> main
+![Схема после git rebase master](img/3.png)
