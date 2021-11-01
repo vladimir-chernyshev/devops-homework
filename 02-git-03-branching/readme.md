@@ -61,4 +61,4 @@
 
 		$ git add .
 		$ git commit -m 'merge: @ instead *'
-		$ git push
+		$ git push -u origin git-merge
