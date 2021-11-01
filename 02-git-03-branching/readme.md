@@ -215,3 +215,14 @@ Switched to a new branch 'git-rebase'
 		EOF
 		$ git commit -a -m 'git-rebase 2'
 		$ git push
+		Enumerating objects: 11, done.
+		Counting objects: 100% (11/11), done.
+		Delta compression using up to 16 threads
+		Compressing objects: 100% (6/6), done.
+		Writing objects: 100% (6/6), 781 bytes | 130.00 KiB/s, done.
+		Total 6 (delta 3), reused 0 (delta 0)
+		remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+		To github.com:vladimir-chernyshev/devops-homework.git
+		   69504cb..f5494b5  git-rebase -> git-rebase
+
+
