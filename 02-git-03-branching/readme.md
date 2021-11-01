@@ -238,4 +238,7 @@ Merge
 		Your branch is ahead of 'origin/main' by 1 commit.
 		  (use "git push" to publish your local commits)
 		
+		$git merge git-merge
+![Схема после git merge git-merge](img/2.png)
+
 
