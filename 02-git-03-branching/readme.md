@@ -241,4 +241,22 @@ Merge
 		$git merge git-merge
 ![Схема после git merge git-merge](img/2.png)
 
+Rebase
+---
+- Выполним rebase ветки *git-rebase* на *main*:
+
+		$git checkout git-rebase
+		Switched to branch 'git-rebase'
+		Your branch is up to date with 'origin/git-rebase'.
+		$git rebase master
+		Current branch git-rebase is up to date.
+		$git checkout main
+		Switched to branch 'main'
+		Your branch is up to date with 'origin/main'.
+		$git merge git-rebase
+		CONFLICT (add/add): Merge conflict in 02-git-03-branching/readme.md
+		Auto-merging 02-git-03-branching/readme.md
+		Auto-merging 02-git-03-branching/branching/rebase.sh
+		CONFLICT (content): Merge conflict in 02-git-03-branching/branching/rebase.sh
+		Automatic merge failed; fix conflicts and then commit the result.
 
