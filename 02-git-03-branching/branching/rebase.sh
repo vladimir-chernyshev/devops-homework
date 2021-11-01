@@ -3,6 +3,8 @@
 
 count=1
 for param in ""; do
-    echo "$* Parameter # = "
+    echo "$@ Parameter # = "
     count=1
 done
+
+echo "====="
