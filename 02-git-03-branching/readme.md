@@ -225,4 +225,11 @@ Switched to a new branch 'git-rebase'
 		To github.com:vladimir-chernyshev/devops-homework.git
 		   69504cb..f5494b5  git-rebase -> git-rebase
 
+- Промежуточный итог:
+
+![Снимок репозитория](img/1.png)
+
+Merge
+---
+
 
