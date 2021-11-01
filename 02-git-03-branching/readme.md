@@ -142,7 +142,7 @@
 		Date:   Mon Nov 1 20:57:41 2021 +0500
 		
 		    prepare for merge and rebase
-		git checkout 61965401eb79e4edc29644d5986059cc1d9fb2a5
+		$git checkout 61965401eb79e4edc29644d5986059cc1d9fb2a5
 		Note: switching to '61965401eb79e4edc29644d5986059cc1d9fb2a5'.
 		
 		You are in 'detached HEAD' state. You can look around, make experimental
@@ -248,8 +248,9 @@ Rebase
 		$git checkout git-rebase
 		Switched to branch 'git-rebase'
 		Your branch is up to date with 'origin/git-rebase'.
-		$git rebase master
-		Current branch git-rebase is up to date.
+		$ git rebase main
+		First, rewinding head to replay your work on top of it...
+		Fast-forwarded git-rebase to main.
 		$git checkout main
 		Switched to branch 'main'
 		Your branch is up to date with 'origin/main'.
