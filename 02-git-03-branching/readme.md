@@ -184,4 +184,34 @@ Switched to a new branch 'git-rebase'
 		$git add .
 		$git commit -m 'git-rebase 1'
 		$git push -u origin git-rebase
+		Enumerating objects: 12, done.
+		Counting objects: 100% (12/12), done.
+		Delta compression using up to 16 threads
+		Compressing objects: 100% (6/6), done.
+		Writing objects: 100% (7/7), 2.41 KiB | 274.00 KiB/s, done.
+		Total 7 (delta 1), reused 0 (delta 0)
+		remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+		remote:
+		remote: Create a pull request for 'git-rebase' on GitHub by visiting:
+		remote:      https://github.com/vladimir-chernyshev/devops-homework/pull/new/git-rebase
+		remote:
+		To github.com:vladimir-chernyshev/devops-homework.git
+		 * [new branch]      git-rebase -> git-rebase
+		Branch 'git-rebase' set up to track remote branch 'git-rebase' from 'origin'.
 
+- Заменим строку _echo "Parameter: $param"_ на _echo "Next parameter: $param"_ и сделаем еще один коммит в *git-rebase*:
+
+		$cat << EOF > 02-git-03-branching/branching/rebase.sh
+		#!/bin/bash
+		# display command line options
+		
+		count=1
+		for param in "$@"; do
+		    echo "Next parameter: $param"
+		    count=$(( $count + 1 ))
+		done
+		
+		echo "====="
+		EOF
+		$ git commit -a -m 'git-rebase 2'
+		$ git push
