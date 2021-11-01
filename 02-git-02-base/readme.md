@@ -346,6 +346,6 @@
 
 Задание 4
 ---
-Коммит из PyChaarm в github.com ветку *main*:
+Коммит из PyCharm в github.com ветку *main*:
 
 ![Коммит из PyChaarm в github.com](img/github.png) 
