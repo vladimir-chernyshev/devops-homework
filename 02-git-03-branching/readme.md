@@ -291,6 +291,10 @@ Rebase
 		   43db1f4..45c90e6  main -> main
 ![Схема после git rebase master](img/3.png)
 
+Переделка задания, начиная с пункта "Подготовка файла rebase.sh."
+---
+NB! Переделку выполнял с другой (рабочей) машины.
+
 - Переключимся на ветку *main* и найдем коммит с комментарием 'prepare for merge and rebase', от него создадим ветку *git-rebase*:
 
 		$ git switch main
