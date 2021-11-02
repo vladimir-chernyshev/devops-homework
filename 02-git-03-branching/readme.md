@@ -290,3 +290,142 @@ Rebase
 		To github.com:vladimir-chernyshev/devops-homework.git
 		   43db1f4..45c90e6  main -> main
 ![Схема после git rebase master](img/3.png)
+
+- Переключимся на ветку *main* и найдем коммит с комментарием 'prepare for merge and rebase', от него создадим ветку *git-rebase*:
+
+		$ git switch main
+		
+		$ git log --grep 'prepare for merge and rebase'
+		commit 61965401eb79e4edc29644d5986059cc1d9fb2a5
+		Author: Vladimir Chernyshev <v.chernyshev@ro.ru>
+		Date:   Mon Nov 1 20:57:41 2021 +0500
+		
+		    prepare for merge and rebase
+		
+		$ git checkout 61965401eb79e4edc29644d5986059cc1d9fb2a5
+		Note: switching to '61965401eb79e4edc29644d5986059cc1d9fb2a5'.
+		
+		You are in 'detached HEAD' state. You can look around, make experimental
+		changes and commit them, and you can discard any commits you make in this
+		state without impacting any branches by switching back to a branch.
+				
+		If you want to create a new branch to retain commits you create, you may
+		do so (now or later) by using -c with the switch command. Example:
+		
+		  git switch -c <new-branch-name>
+		
+		Or undo this operation with:
+		
+		  git switch -
+		
+		Turn off this advice by setting config variable advice.detachedHead to false
+		
+		HEAD сейчас на 6196540 prepare for merge and rebase
+		
+		
+		$ git switch -c git-rebase
+	
+- Изменим содержимое файла _merge.sh_ (на самом деле файл должен называться _rebase.sh_, но этот недочет увидел только после выполнения всей работы), сделаем коммит с комментарием 'git-rebase 1':
+
+		$ cat << EOF > 02-git-03-branching/branching/merge.sh
+		#!/bin/bash
+		# display command line options
+		
+		count=1
+		for param in "$@"; do
+		    echo "Parameter: $param"
+		    count=$(( $count + 1 ))
+		done
+		
+		echo "====="
+		EOF
+		
+		$ git add 02-git-03-branching/branching/merge.sh
+		
+		$ git commit -m 'git-rebase 1'
+			
+- Вновь изменим содержимое файла _merge.sh_ , сделаем коммит с комментарием 'git-rebase 2':
+
+		$ cat << EOF > 02-git-03-branching/branching/merge.sh
+		#!/bin/bash
+		# display command line options
+		
+		count=1
+		for param in "$@"; do
+			echo "Next parameter: $param"
+			count=$(( $count + 1 ))
+		done
+		
+		echo "====="
+		EOF
+
+		$ git add 02-git-03-branching/branching/merge.sh
+		
+		$ git commit -m 'git-rebase 2'
+		
+		$ git push -f -u origin git-rebase
+
+- Переключаемся на ветку *git-rebase* и выполняем _git rebase -i main_: 
+		$ git switch git-rebase
+		Переключено на ветку «git-rebase»
+		Ваша ветка обновлена в соответствии с «origin/git-rebase».
+		
+		$git rebase -i main
+		
+		Автослияние 02-git-03-branching/branching/merge.sh
+		КОНФЛИКТ (содержимое): Конфликт слияния в 02-git-03-branching/branching/merge.sh
+		error: не удалось применить коммит cee2794… git-rebase 1
+		Resolve all conflicts manually, mark them as resolved with
+		"git add/rm <conflicted_files>", then run "git rebase --continue".
+		You can instead skip this commit: run "git rebase --skip".
+		To abort and get back to the state before "git rebase", run "git rebase --abort".
+		Could not apply cee2794... git-rebase 1
+
+
+		$ vi 02-git-03-branching/branching/merge.sh
+
+- Cообщим гиту, что конфликт решен _git add merge.sh_ и продолжим ребейз _git rebase --continue_:
+
+		$ git add 02-git-03-branching/branching/merge.sh
+		
+		$ git rebase --continue
+		
+		1 file changed, 4 insertions(+), 2 deletions(-)
+		Successfully rebased and updated refs/heads/git-rebase.
+		
+		$ git push
+		To github.com:vladimir-chernyshev/devops-homework.git
+		! [rejected]        git-rebase -> git-rebase (non-fast-forward)
+		error: не удалось отправить некоторые ссылки в «github.com:vladimir-chernyshev/devops-homework.git»
+		подсказка: Обновления были отклонены, так как верхушка вашей текущей ветки
+		подсказка: позади ее внешней части. Заберите и слейте внешние изменения
+		подсказка: (например, с помощью «git pull …») перед повторной попыткой отправки
+		подсказка: изменений.
+		подсказка: Для дополнительной информации, смотрите «Note about fast-forwards»
+		подсказка: в «git push --help».
+
+
+- Команда завершится с ошибкой, потому что мы пытаемся перезаписать историю. Чтобы гит позволил нам это сделать, добавим флаг _force_:
+
+		$ git push -u origin git-rebase -f
+		Перечисление объектов: 14, готово.
+		Подсчет объектов: 100% (14/14), готово.
+		При сжатии изменений используется до 2 потоков
+		Сжатие объектов: 100% (10/10), готово.
+		Запись объектов: 100% (10/10), 1014 байтов | 67.00 КиБ/с, готово.
+		Всего 10 (изменений 3), повторно использовано 0 (изменений 0), повторно использовано пакетов 0
+		remote: Resolving deltas: 100% (3/3), completed with 1 local object.
+		To github.com:vladimir-chernyshev/devops-homework.git
+		+ effb000...2bb696e git-rebase -> git-rebase (forced update)
+		Ветка «git-rebase» отслеживает внешнюю ветку «git-rebase» из «origin».
+
+- Теперь можно слить ветку *git-rebase* в *main* без конфликтов и без дополнительного мерж-комита простой перемоткой:
+
+		ws-chernyshev-bsd$ git checkout main
+		Переключено на ветку «main»
+		Ваша ветка обновлена в соответствии с «origin/main».
+		ws-chernyshev-bsd$ git merge git-rebase
+		Обновление 9ab3f9f..2bb696e
+		Fast-forward
+		02-git-03-branching/branching/merge.sh | 6 ++++--
+		1 file changed, 4 insertions(+), 2 deletions(-)
