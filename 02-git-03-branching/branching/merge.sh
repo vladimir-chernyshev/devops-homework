@@ -3,7 +3,7 @@
 
 count=1
 for param in ""; do
-    echo "Parameter: "
+    echo "Next parameter: "
     count=1
     shift
 done
