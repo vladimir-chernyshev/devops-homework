@@ -7,6 +7,8 @@
 		$git clone git@github.com:hashicorp/terraform.git
 		$echo "terraform/" > .gitignore
 		$cd terraform
+Выполнение задания.
+---
 1. Найдите полный хеш и комментарий коммита, хеш которого начинается на *aefea*.
 		
 		$ git show -s aefea 
