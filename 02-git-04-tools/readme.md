@@ -7,7 +7,7 @@
 		$git clone git@github.com:hashicorp/terraform.git
 		$echo "terraform/" > .gitignore
 		$cd terraform
-1. Найдите полный хеш и комментарий коммита, хеш которого начинается на *aefea*.---
+1. Найдите полный хеш и комментарий коммита, хеш которого начинается на *aefea*.
 		
 		$ git show -s aefea 
 		commit aefead2207ef7e2aa5dc81a34aedf0cad4c32545
@@ -15,13 +15,16 @@
 		Date:   Thu Jun 18 10:29:58 2020 -0400
 		
 		    Update CHANGELOG.md
+
 2. Какому тегу соответствует коммит *85024d3*?
----
+
 		$ git show -s --oneline 85024d3
 		85024d310 (tag: v0.12.23) v0.12.23
+
 3. Сколько родителей у коммита *b8d720*? Напишите их хеши.
----
+
  - Переберем всех предков коммита:
+
 		$ git show -s  b8d720^1
 		commit 56cd7859e05c36c06b56d013b55a252d0bb7e158
 		Merge: 58dcac4b7 ffbcf5581
@@ -40,6 +43,7 @@
 		$ git show -s  b8d720^3
 		fatal: ambiguous argument 'b8d720^3': unknown revision or path not in the working tree.
 - ИЛИ воспользуемся указанием всех предков коммита из gitrevisions(7):
+
 		$ git show -s  b8d720^@
 		commit 56cd7859e05c36c06b56d013b55a252d0bb7e158
 		Merge: 58dcac4b7 ffbcf5581
@@ -57,7 +61,7 @@
 		    add/update community provider listings
 
 4. Перечислите хеши и комментарии всех коммитов которые были сделаны между тегами *v0.12.23* и *v0.12.24*.
----
+
 		$ git show -s --oneline v0.12.23..v0.12.24
 		33ff1c03b (tag: v0.12.24) v0.12.24
 		b14b74c49 [Website] vmc provider links
@@ -69,8 +73,9 @@
 		4b6d06cc5 Update CHANGELOG.md
 		dd01a3507 Update CHANGELOG.md
 		225466bc3 Cleanup after v0.12.23 release
+
 5. Найдите коммит в котором была создана функция *func providerSource*, ее определение в коде выглядит так: _func providerSource(...)_ (вместо троеточего перечислены аргументы).
----
+
 		$ git log -S"func providerSource(" --pretty=short
 		commit 8c928e83589d90a031f811fae52a81be7153e82f
 		Author: Martin Atkins <mart@degeneration.co.uk>
@@ -88,14 +93,10 @@
 		--- /dev/null
 		+++ b/provider_source.go
 		[..]
-		+// providerSource constructs a provider source based on a combination of the
-		+// CLI configuration and some default search locations. This will be the
-		+// provider source used for provider installation in the "terraform init"
-		+// command, unless overridden by the special -plugin-dir option.
 		+func providerSource(services *disco.Disco) getproviders.Source {
 
 6. Найдите все коммиты в которых была изменена функция *globalPluginDirs*.
----
+
 		$ git grep "func globalPluginDirs"
 		plugins.go:func globalPluginDirs() []string {
 		$ git log -s --oneline -L :globalPluginDirs:plugins.goi
@@ -104,9 +105,10 @@
 		41ab0aef7 Add missing OS_ARCH dir to global plugin paths
 		66ebff90c move some more plugin search path logic to command
 		8364383c3 Push plugin discovery down into command package
+
 7.Кто автор функции *synchronizedWriters*?
----
- git log --pretty=short -p -S"func synchronizedWriters("
+
+		$ git log --pretty=short -p -S"func synchronizedWriters("
 		commit bdfea50cc85161dea41be0fe3381fd98731ff786
 		Author: James Bardin <j.bardin@gmail.com>
 		
@@ -129,5 +131,5 @@
 		+func synchronizedWriters(targets ...io.Writer) []io.Writer {
 		[..]
 
-Судя по содержимому diff, автором функции *synchronizedWriters* был _Martin Atkins_, а _James Bardin_ - ее убийцей.
+ Судя по содержимому diff, автором функции *synchronizedWriters* был Martin Atkins, а James Bardin - ее убийцей.
 
