@@ -79,3 +79,32 @@
     > (argv) and environment (envp) strings that may be passed to a new program.  POSIX.1 allows
     > an  implementation  to  advertise this limit using the ARG_MAX constant
     
+11. В man bash поищите по */\[\[*. Что делает конструкция *[[ -d /tmp ]]* ?
+---
+Двойные прямые скобки обрамляют условное выражение, **bash(1)** line 359:
+
+    >[[ expression ]]
+    >          Return a status of 0 or 1 depending on  the  evaluation  of  the
+    >          conditional  expression expression.  Expressions are composed of
+    >          the primaries described  below  under  CONDITIONAL  EXPRESSIONS.
+
+Выражение *[[ -d /tmp ]]* проверяет на существование каталог */tmp*
+
+12. Добейтесь в выводе *type -a bash* в виртуальной машине наличия первым пунктом в списке **bash is /tmp/new_path_directory/bash**
+---
+Исходное состояние:
+        
+        $type -a bash
+         bash is /usr/bin/bash
+         bash is /bin/bash
+         
+        $mkdir /tmp/new_path_directory
+        $ln -s /usr/bin/bash /tmp/new_path_directory/bash
+        $export PATH="/tmp/new_path_directory/:$PATH"
+        
+Результат:
+
+        $ type -a bash
+         bash is /tmp/new_path_directory/bash
+         bash is /usr/bin/bash
+         bash is /bin/bash
