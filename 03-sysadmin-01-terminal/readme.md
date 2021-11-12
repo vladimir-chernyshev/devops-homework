@@ -65,13 +65,13 @@
 10. Основываясь на предыдущем вопросе, как создать однократным вызовом touch 100000 файлов? А получилось ли создать 300000? Если нет, то почему?
 ---
         $touch {1..100000}; echo $?
-        $0
+        0
 
 Успешно.
 
         $ touch {1..300000}; echo $?
-        $-bash: /usr/bin/touch: Argument list too long
-        $126
+        -bash: /usr/bin/touch: Argument list too long
+        126
 
 Неуспешно. [StackOverflow](https://stackoverflow.com/questions/11289551/argument-list-too-long-error-for-rm-cp-mv-commands) подсказывает, что неуспех связан с превышением максимальной длины массива символов ARG_MAX, предназначенным для хранения аргументов программы, запускаемой на выполнение посредством системного вызова [execve(2)](http://manpages.ubuntu.com/manpages/bionic/man2/execve.2.html):
 
@@ -97,7 +97,9 @@
         $type -a bash
          bash is /usr/bin/bash
          bash is /bin/bash
-         
+
+Команды:
+
         $mkdir /tmp/new_path_directory
         $ln -s /usr/bin/bash /tmp/new_path_directory/bash
         $export PATH="/tmp/new_path_directory/:$PATH"
@@ -108,3 +110,16 @@
          bash is /tmp/new_path_directory/bash
          bash is /usr/bin/bash
          bash is /bin/bash
+
+13. Чем отличается планирование команд с помощью *batch* и *at*?
+---
+**at(1)**:
+
+    >**at** and **batch** read commands from standard  input  or  a  specified  file
+    >which are to be executed at a later time, using /bin/sh.
+    >
+    >**at**      executes commands at a specified time.
+    >**batch**   executes commands when system  load  levels  permit;  in  other
+    >            words,  when  the  load  average  drops below 1.5, or the value
+    >            specified in the invocation of atd.
+    Команда **at** посволяет указать время единократного запуска задания, команда **batch** запустит задание при определенном уровне загрузки системы (количестве запущенных процессов и процессов, готовых к запуску или ожидающих ввода/вывода за период времени 1 минута). По умолчанию, **batch** звпустит задание, если загрузка системы будет ниже 1.5
