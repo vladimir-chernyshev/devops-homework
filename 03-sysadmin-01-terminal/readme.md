@@ -115,12 +115,12 @@
 ---
 **at(1)**:
 
-    >**at** and **batch** read commands from standard  input  or  a  specified  file
-    >which are to be executed at a later time, using /bin/sh.
-    >
-    >**at**      executes commands at a specified time.
-    >**batch**   executes commands when system  load  levels  permit;  in  other
-    >            words,  when  the  load  average  drops below 1.5, or the value
-    >            specified in the invocation of atd.
-    
+>**at** and **batch** read commands from standard  input  or  a  specified  file
+>which are to be executed at a later time, using /bin/sh.
+>
+>**at**      executes commands at a specified time.
+>**batch**   executes commands when system  load  levels  permit;  in  other
+>            words,  when  the  load  average  drops below 1.5, or the value
+>            specified in the invocation of atd.
+   
     Команда **at** посволяет указать время единократного запуска задания, команда **batch** запустит задание при определенном уровне загрузки системы (количестве запущенных процессов и процессов, готовых к запуску или ожидающих ввода/вывода за период времени 1 минута). По умолчанию, **batch** звпустит задание, если загрузка системы будет ниже 1.5
