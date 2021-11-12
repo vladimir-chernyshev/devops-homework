@@ -42,6 +42,7 @@
 9. В каких сценариях использования применимы скобки {} и на какой строчке man bash это описано?
 ---
  Применение *{}* описано в разделе *Brace Expansion* **bash(1)**, line 1508:
+ 
     >Brace expansion is a mechanism by which arbitrary strings may be gener‐
     >ated. Patterns to be brace expanded take the
     >form of an optional preamble, followed by either a series of comma-sep‐
@@ -54,6 +55,7 @@
     >either integers or single characters, and incr, an optional  increment,
     >is  an  integer.  When integers are supplied, the expression expands to
     >each number between x and y, inclusive.
+    
   Скобки применяются для генерации составных выражений из *преамбулы*+*переменной части*+*заключения*, причем *"переменные части"* как раз и представлены в виде спиcка через запятую, заключенного между фигурными скобками. Например, команда
   
         ls /{,usr}/{,s}bin
@@ -64,10 +66,13 @@
 ---
         $touch {1..100000}; echo $?
         $0
+
 Успешно.
-        $ touch {1..300000}; echo $?
+
+$ touch {1..300000}; echo $?
         $-bash: /usr/bin/touch: Argument list too long
         $126
+
 Неуспешно. [StackOverflow](https://stackoverflow.com/questions/11289551/argument-list-too-long-error-for-rm-cp-mv-commands) подсказывает, что неуспех связан с превышением максимальной длины массива символов ARG_MAX, предназначенным для хранения аргументов программы, запускаемой на выполнение посредством системного вызова [execve(2)](http://manpages.ubuntu.com/manpages/bionic/man2/execve.2.html):
     >Most UNIX implementations impose some limit on the total size of the command-line argument
     > (argv) and environment (envp) strings that may be passed to a new program.  POSIX.1 allows
