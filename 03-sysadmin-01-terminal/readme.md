@@ -69,11 +69,12 @@
 
 Успешно.
 
-$ touch {1..300000}; echo $?
+        $ touch {1..300000}; echo $?
         $-bash: /usr/bin/touch: Argument list too long
         $126
 
 Неуспешно. [StackOverflow](https://stackoverflow.com/questions/11289551/argument-list-too-long-error-for-rm-cp-mv-commands) подсказывает, что неуспех связан с превышением максимальной длины массива символов ARG_MAX, предназначенным для хранения аргументов программы, запускаемой на выполнение посредством системного вызова [execve(2)](http://manpages.ubuntu.com/manpages/bionic/man2/execve.2.html):
+
     >Most UNIX implementations impose some limit on the total size of the command-line argument
     > (argv) and environment (envp) strings that may be passed to a new program.  POSIX.1 allows
     > an  implementation  to  advertise this limit using the ARG_MAX constant
