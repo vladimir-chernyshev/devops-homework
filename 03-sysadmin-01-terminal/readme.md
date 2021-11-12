@@ -42,18 +42,18 @@
 9. В каких сценариях использования применимы скобки {} и на какой строчке man bash это описано?
 ---
  Применение *{}* описано в разделе *Brace Expansion* **bash(1)**, line 1508:
-       >Brace expansion is a mechanism by which arbitrary strings may be gener‐
-       >ated. Patterns to be brace expanded take the
-       >form of an optional preamble, followed by either a series of comma-sep‐
-       >arated strings or a sequence expression between a pair of braces,  fol‐
-       >lowed  by  an  optional  postscript.   The preamble is prefixed to each
-       >string contained within the braces, and the postscript is then appended
-       >to each resulting string, expanding left to right.
+    >Brace expansion is a mechanism by which arbitrary strings may be gener‐
+    >ated. Patterns to be brace expanded take the
+    >form of an optional preamble, followed by either a series of comma-sep‐
+    >arated strings or a sequence expression between a pair of braces,  fol‐
+    >lowed  by  an  optional  postscript.   The preamble is prefixed to each
+    >string contained within the braces, and the postscript is then appended
+    >to each resulting string, expanding left to right.
         [..]
-       > A  sequence expression takes the form {x..y[..incr]}, where x and y are
-       >either integers or single characters, and incr, an optional  increment,
-       >is  an  integer.  When integers are supplied, the expression expands to
-       >each number between x and y, inclusive.
+    > A  sequence expression takes the form {x..y[..incr]}, where x and y are
+    >either integers or single characters, and incr, an optional  increment,
+    >is  an  integer.  When integers are supplied, the expression expands to
+    >each number between x and y, inclusive.
   Скобки применяются для генерации составных выражений из *преамбулы*+*переменной части*+*заключения*, причем *"переменные части"* как раз и представлены в виде спиcка через запятую, заключенного между фигурными скобками. Например, команда
   
         ls /{,usr}/{,s}bin
