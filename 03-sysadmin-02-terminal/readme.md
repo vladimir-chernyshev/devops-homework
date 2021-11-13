@@ -117,4 +117,32 @@
         /dev/pts/0
         Connection to localhost closed.
 
-    13.
+13. Бывает, что есть необходимость переместить запущенный процесс из одной сессии в другую. Попробуйте сделать это, воспользовавшись **reptyr**
+---
+Попробуем перенести процесс PID 13512 **less /var/log/dmesg** с *pty1* на *pty0*:
+Предварительно, согласно [документации](https://github.com/nelhage/reptyr), от имени root:
+    
+        #echo 0 > /proc/sys/kernel/yama/ptrace_scope
+    
+        $ who am i
+        vagrant  pts/0        2021-11-13 04:03 (10.0.2.2)
+        $ ps u
+        USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+        vagrant    12722  0.0  0.4   9836  4156 pts/1    Ss   01:21   0:01 -bash
+        vagrant    13387  0.0  0.4   9836  4120 pts/0    Ss   04:03   0:00 -bash
+        vagrant    13512  0.2  0.2   8436  2560 pts/1    S+   04:25   0:00 less /var/log
+        vagrant    13522  0.0  0.3  11492  3324 pts/0    R+   04:26   0:00 ps u
+        $reptyr 13512
+        $ ps u
+        USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+        vagrant    12722  0.0  0.4   9836  4156 pts/1    Ss   01:21   0:01 -bash
+        vagrant    13387  0.0  0.4   9836  4120 pts/0    Ss   04:03   0:00 -bash
+        vagrant    13512  0.0  0.2   8436  2604 pts/2    Ss+  04:25   0:00 less /var/log
+        vagrant    13524 13.4  0.1   2592  1732 pts/0    S+   04:31   0:04 reptyr 13512 
+        vagrant    13525  0.0  0.0      0     0 pts/1    Z    04:31   0:00 [less] <defun
+        vagrant    13526  0.0  0.3  11492  3460 pts/1    R+   04:32   0:00 ps u
+
+Процесс действительно стал запущен в соседнем окошке SSH.
+
+14. использовать конструкцию **echo string | sudo tee /root/new_file**. Узнайте что делает команда **tee** и почему в отличие от **sudo echo** команда с **sudo tee** будет работать.
+---                                                                                         
