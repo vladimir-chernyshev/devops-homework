@@ -86,6 +86,7 @@
 
 10. Используя man, опишите что доступно по адресам /proc/<PID>/cmdline, /proc/<PID>/exe.
 ---
+    
 **proc(5)**:
 > /proc/[pid]/cmdline
 >              This  read-only  file  holds  the  complete command line for the
@@ -101,3 +102,19 @@
         flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx rdtscp lm constant_tsc rep_good nopl          xtopology nonstop_tsc cpuid tsc_known_freq pni pclmulqdq ssse3 cx16 sse4_1 sse4_2 x2apic movbe popcnt aes rdrand hypervisor lahf_lm 3dnowprefetch pti
     
 Самая старшая версия SSE 4.2
+
+12.
+---
+    
+        $ ssh localhost 'tty'
+        vagrant@localhost's password:
+        not a tty
+    
+Исправление с помощью [Google-fu](https://unix.stackexchange.com/questions/48527/ssh-inside-ssh-fails-with-stdin-is-not-a-tty):
+    
+        $ ssh -t localhost 'tty'
+        vagrant@localhost's password:
+        /dev/pts/0
+        Connection to localhost closed.
+
+    13.
