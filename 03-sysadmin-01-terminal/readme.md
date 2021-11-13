@@ -43,9 +43,9 @@
 ---
  Применение *{}* описано в разделе *Brace Expansion* **bash(1)**, line 1508:
  
->Brace expansion is a mechanism by which arbitrary strings may be gener‐
+>Brace expansion is a mechanism by which arbitrary strings may be gener
 >ated. Patterns to be brace expanded take the
->form of an optional preamble, followed by either a series of comma-sep‐
+>form of an optional preamble, followed by either a series of commasep‐
 >arated strings or a sequence expression between a pair of braces,  fol‐
 >lowed  by  an  optional  postscript.   The preamble is prefixed to each
 >string contained within the braces, and the postscript is then appended
@@ -84,9 +84,9 @@
 Двойные прямые скобки обрамляют условное выражение, **bash(1)** line 359:
 
 >[[ expression ]]
->          Return a status of 0 or 1 depending on  the  evaluation  of  the
->          conditional  expression expression.  Expressions are composed of
->          the primaries described  below  under  CONDITIONAL  EXPRESSIONS.
+>           Return a status of 0 or 1 depending on  the  evaluation  of  the
+>           conditional  expression expression.  Expressions are composed of
+>           the primaries described  below  under  CONDITIONAL  EXPRESSIONS.
 
 Выражение *[[ -d /tmp ]]* проверяет на существование каталог */tmp*
 
