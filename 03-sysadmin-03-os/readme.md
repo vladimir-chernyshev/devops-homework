@@ -14,7 +14,7 @@
 		$ strace file .bashrc 
 		[..]
 		stat("/home/vagrant/.magic.mgc", 0x7ffca6751170) = -1 ENOENT (No such file or directory)
-i		stat("/home/vagrant/.magic", 0x7ffca6751170) = -1 ENOENT (No such file or directory)
+		stat("/home/vagrant/.magic", 0x7ffca6751170) = -1 ENOENT (No such file or directory)
 		openat(AT_FDCWD, "/etc/magic.mgc", O_RDONLY) = -1 ENOENT (No such file or directory)
 		stat("/etc/magic", {st_mode=S_IFREG|0644, st_size=111, ...}) = 0
 		openat(AT_FDCWD, "/etc/magic", O_RDONLY) = 3
@@ -79,6 +79,7 @@ i		stat("/home/vagrant/.magic", 0x7ffca6751170) = -1 ENOENT (No such file or dir
 **bash(1)**:
 
 >Commands separated by a *;* are executed sequentially; the shell waits for each command to terminate in turn.  The return status is the exit status of the last command executed.
+>
 >AND and OR lists are sequences of one or more pipelines separated by the *&&* and *||* control operators, respectively.  AND and OR lists are executed with left  associativity.
 >      An AND list has the form
 >
@@ -100,8 +101,8 @@ i		stat("/home/vagrant/.magic", 0x7ffca6751170) = -1 ENOENT (No such file or dir
 ---
 **bash(1)**:
 
->set -e
->			Exit immediately if a list exits with a non-zero  sta‐
+>set -e:
+>			exit immediately if a list exits with a non-zero  sta‐
 >                      tus.   The  shell  does  not  exit if the command that
 >                      fails is part of any command executed in a && or || list
 >			except the command following the final && or ||
@@ -134,10 +135,15 @@ i		stat("/home/vagrant/.magic", 0x7ffca6751170) = -1 ENOENT (No such file or dir
 **bash(1)** [cм.](https://explainshell.com/explain?cmd=set+-euxo+pipefail):
 
 >SHELL BUILTIN COMMANDS
+>
 >set
+>
 >	-e:	 завершить выполнение командной оболочки, если последняя команда в *pipeline* завершится с ненулевым кодом выполнения;
+>
 >	-o pipefail: код выполнения всего pipe принимается равным коду выполнения последней в pipe команды, если ненулевой, причем в этом случае оболочка завершает свою работу, или принимается равным "0", если все команды в pipe выполнились успешно
+>
 >	-x:	включение отладки, вывод скрипта построчно со всемы выполненными подстановками и расширениями переменных
+>
 >	-u:	выводить сообщение об ошибке каждый раз, когда используется не объявленная ранее переменная
 
 По всей видимости, данный режим полезен при отладке сценариев.
@@ -168,6 +174,5 @@ i		stat("/home/vagrant/.magic", 0x7ffca6751170) = -1 ENOENT (No such file or dir
 >               t    stopped by debugger during the tracing
 >               W    paging (not valid since the 2.6.xx kernel)
 >               X    dead (should never be seen)
->               Z    defunct ("zombie") process, terminated but not reaped by
-                    its parent
+>               Z    defunct ("zombie") process, terminated but not reaped by its parent
 
