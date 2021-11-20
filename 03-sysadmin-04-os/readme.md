@@ -90,6 +90,6 @@
 
 		$ vagrant reload
 
-![Netdata}(img/netdata.png)
+![Netdata](img/netdata.png)
 
 
