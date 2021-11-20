@@ -71,4 +71,25 @@
 
 		$ sudo systemctl daemon-reload
 
+3. Установка **Netdata** согласно [документации](https://packagecloud.io/netdata/netdata/install):
+---
+
+		$ curl -s https://packagecloud.io/install/repositories/netdata/netdata/script.deb.sh | sudo bash
+		$ sudo apt-get install netdata
+
+		$ sudo vi  /etc/netdata/netdata.conf
+
+>	bind to = 0.0.0.0
+
+		$ sudo systemctl enable netdata
+		$ sudo systemctl restart netdata
+
+		$ vi Vagrantfile
+
+>	config.vm.network "forwarded_port", guest: 19999, host: 19999
+
+		$ vagrant reload
+
+![Netdata}(img/netdata.png)
+
 
