@@ -149,22 +149,24 @@
 Согласно [документа](https://tldp.org/LDP/abs/html/special-chars.html):
  - *:*		- null command, NOP
  - *()*		- command group, commands start in subshell
+
 НО
+
  - *:()*	- colon is acceptable as a function name
  - *{}*		- block of code
  - *|*		- pipe
  - *&*		- run job in background
  - *;*		- command separator
 
-Команда запускает последовательность из безымянной функции, которая в фоновом режиме выполняет NOP pipe NOP, и пустой команды NOP
 
 		$ :(){ :|:& };:
 		[..]
 		$ dmesg
 		cgroup: fork rejected by pids controller in /user.slice/user-1000.slice/session-1.scope
 
-[Объяснение fork-бомбы](https://askubuntu.com/questions/159491/why-did-the-command-make-my-system-lag-so-badly-i-had-to-reboot)
-[Объяснение предотвращения fork-бомбы systemd](https://unix.stackexchange.com/questions/469950/why-cant-i-crash-my-system-with-a-fork-bomb)
+
+[Объяснение fork-бомбы](https://askubuntu.com/questions/159491/why-did-the-command-make-my-system-lag-so-badly-i-had-to-reboot)  
+[Объяснение предотвращения fork-бомбы](https://unix.stackexchange.com/questions/469950/why-cant-i-crash-my-system-with-a-fork-bomb)
 
 		 $ systemctl status user-$UID.slice
 
