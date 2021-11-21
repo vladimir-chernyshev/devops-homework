@@ -9,7 +9,19 @@
 		$ tar xzf node_exporter-1.3.0.linux-amd64.tar.gz
 		$ sudo mv node_exporter-1.3.0.linux-amd64/node_exporter /usr/local/bin/
 
+ Создадим каталог, названный согласно *systemd.unit(5)*, чтобы иметь в дальнейшем возможность менять параметры запуска сервиса:
+
+>	Along with a unit file foo.service, a "drop-in" directory
+>       foo.service.d/ may exist. All files with the suffix ".conf" from this
+>	directory will be parsed after the unit file itself is parsed. This is
+>       useful to alter or add configuration settings for a unit, without
+>       having to modify unit files.
+
 		$ sudo mkdir /etc/systemd/system/node_exporter.service.d
+
+ Создадим простой файл запуска сервиса:
+
+		
 		$ sudo vi /etc/systemd/system/node_exporter.service
 
 >	[Unit]
@@ -25,6 +37,10 @@
 >	[Service]
 >
 >	ExecStart=/usr/local/bin/node_exporter
+
+ Добавим параметр, позволяющий передавать процессу переменные окружения через специальный файл:
+
+>	EnvironmentFile=-/etc/netdata/netdata.env
 
 		$ sudo systemctl enable node_exporter
 		$ sudo systemctl start node_exporter
