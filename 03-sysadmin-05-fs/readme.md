@@ -14,24 +14,16 @@
 
 		$ vi Vagrantfile
 		$ vagrant up
-
+		[..]
 		vagrant@vagrant:~$ lsblk
 
 >	NAME                 MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
-
 >	sda                    8:0    0   64G  0 disk 
-
 >	├─sda1                 8:1    0  512M  0 part /boot/efi
-
 >	├─sda2                 8:2    0    1K  0 part 
-
 >	└─sda5                 8:5    0 63.5G  0 part 
-
 >	  ├─vgvagrant-root   253:0    0 62.6G  0 lvm  /
-
 >	  └─vgvagrant-swap_1 253:1    0  980M  0 lvm  [SWAP]
-
 >	sdb                    8:16   0  2.5G  0 disk 
-
 >	sdc                    8:32   0  2.5G  0 disk 
 
