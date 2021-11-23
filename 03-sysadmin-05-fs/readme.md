@@ -37,3 +37,21 @@
 
 >	sdc                    8:32   0  2.5G  0 disk 
 
+4. Используя fdisk, разбейте первый диск на 2 раздела: 2 Гб, оставшееся пространство.
+---
+
+		$ sudo fdisk  /dev/sdb
+		[..]
+>	Command (m for help):  p
+>	Disk /dev/sdb: 2.51 GiB, 2684354560 bytes, 5242880 sectors
+>	Disk model: VBOX HARDDISK   
+>	Units: sectors of 1 * 512 = 512 bytes
+>	Sector size (logical/physical): 512 bytes / 512 bytes
+>	I/O size (minimum/optimal): 512 bytes / 512 bytes
+>	Disklabel type: dos
+>	Disk identifier: 0x60f5c924
+>	
+>	Device     Boot   Start     End Sectors  Size Id Type
+>	/dev/sdb1          2048 4196351 4194304    2G 83 Linux
+>	/dev/sdb2       4196352 5242879 1046528  511M 83 Linux
+
