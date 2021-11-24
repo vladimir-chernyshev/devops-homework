@@ -328,4 +328,158 @@
 >
 >  PV UUID               V8ZIvu-w3sB-J0fR-jeaX-XMzh-cTQJ-KKeN0W
    
+9. Создайте общую volume-group на этих двух PV.
+---
 
+		$ sudo vgcreate vg /dev/md127 /dev/md126 
+>  Volume group "vg" successfully created
+
+		$ sudo lvm vgs
+>  VG        #PV #LV #SN Attr   VSize   VFree 
+>  vg          2   0   0 wz--n-  <2.99g <2.99g
+
+10. Создайте LV размером 100 Мб, указав его расположение на PV с RAID0.
+---
+
+		$ sudo lvcreate --size 100M vg /dev/md126
+>	  Logical volume "lvol0" created.
+
+		$ sudo lvdisplay 
+>	  --- Logical volume ---
+>  LV Path                /dev/vg/lvol0
+>
+>  LV Name                lvol0
+>
+>  VG Name                vg
+>
+>  LV UUID                RTIcx2-WB0t-GrWq-nesj-sayF-yA9m-gOHLE6
+>
+>  LV Write Access        read/write
+>
+>  LV Creation host, time vagrant, 2021-11-24 20:12:13 +0000
+>
+>  LV Status              available
+>
+>  # open                 0
+>
+>  LV Size                100.00 MiB
+>
+>  Current LE             25
+>
+>  Segments               1
+>
+>  Allocation             inherit
+>
+>  Read ahead sectors     auto
+>
+>  - currently set to     4096
+>
+>  Block device           253:2
+
+11. Создайте mkfs.ext4 ФС на получившемся LV.
+---
+
+		$ sudo mkfs.ext4 /dev/vg/lvol0
+>	mke2fs 1.45.5 (07-Jan-2020)
+>	Creating filesystem with 25600 4k blocks and 25600 inodes
+>
+>	Allocating group tables: done                            
+>	Writing inode tables: done                            
+>	Creating journal (1024 blocks): done
+>	Writing superblocks and filesystem accounting information: done
+
+12. Смонтируйте этот раздел в любую директорию, например, /tmp/new.
+---
+
+		$ mkdir /tmp/new
+		$ sudo mount /dev/vg/lvol0 /tmp/new/
+
+13. Поместите туда тестовый файл, например wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz
+---
+
+		$ sudo wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz
+>	--2021-11-24 20:25:12--  https://mirror.yandex.ru/ubuntu/ls-lR.gz
+>	Resolving mirror.yandex.ru (mirror.yandex.ru)... 213.180.204.183, 2a02:6b8::183
+>	Connecting to mirror.yandex.ru (mirror.yandex.ru)|213.180.204.183|:443... connected.
+>	HTTP request sent, awaiting response... 200 OK
+>	Length: 22565143 (22M) [application/octet-stream]
+>	Saving to: ‘/tmp/new/test.gz’
+>
+>	/tmp/new/test.gz    100%[==================>]  21.52M  3.37MB/s    in 7.6s    
+>
+>	2021-11-24 20:25:21 (2.85 MB/s) - ‘/tmp/new/test.gz’ saved [22565143/22565143]
+
+14. Прикрепите вывод **lsblk**.
+---
+
+		$ lsblk
+>	NAME                 MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
+>
+>	sda                    8:0    0   64G  0 disk  
+>	├─sda1                 8:1    0  512M  0 part  /boot/efi
+>
+>	├─sda2                 8:2    0    1K  0 part  
+>
+>	└─sda5                 8:5    0 63.5G  0 part  
+>
+>	  ├─vgvagrant-root   253:0    0 62.6G  0 lvm   /
+>
+>	  └─vgvagrant-swap_1 253:1    0  980M  0 lvm   [SWAP]
+>
+>	sdb                    8:16   0  2.5G  0 disk  
+>
+>	├─sdb1                 8:17   0    2G  0 part  
+>
+>	│ └─md127              9:127  0    2G  0 raid1 
+>
+>	└─sdb2                 8:18   0  511M  0 part  
+>
+>	  └─md126              9:126  0 1018M  0 raid0 
+>
+>	    └─vg-lvol0       253:2    0  100M  0 lvm   /tmp/new
+>
+>	sdc                    8:32   0  2.5G  0 disk  
+>
+>	├─sdc1                 8:33   0    2G  0 part  
+>
+>	│ └─md127              9:127  0    2G  0 raid1 
+>
+>	└─sdc2                 8:34   0  511M  0 part  
+>
+>	  └─md126              9:126  0 1018M  0 raid0 
+>
+>	    └─vg-lvol0       253:2    0  100M  0 lvm   /tmp/new
+>
+
+15. Протестируйте целостность файла:
+---
+
+		$ gzip -t /tmp/new/test.gz
+		$ echo $?
+		0
+
+16. Используя **pvmove**, переместите содержимое PV с RAID0 на RAID1.
+---
+
+		$ sudo pvmove --name lvol0 /dev/md126 /dev/md127  
+		  /dev/md126: Moved: 72.00%
+
+17. Сделайте --fail на устройство в вашем RAID1 md.
+---
+
+		$ sudo mdadm /dev/md127 --fail /dev/sdb1
+		mdadm: set /dev/sdb1 faulty in /dev/md127
+
+18. Подтвердите выводом **dmesg**, что RAID1 работает в деградированном состоянии.
+---
+
+		$ dmesg
+		md/raid1:md127: Disk failure on sdb1, disabling device.
+		md/raid1:md127: Operation continuing on 1 devices
+
+19. Протестируйте целостность файла, несмотря на "сбойный" диск он должен продолжать быть доступен:
+---
+
+		$ gzip -t /tmp/new/test.gz
+		$ echo $?
+		0
