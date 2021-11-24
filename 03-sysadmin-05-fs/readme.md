@@ -399,13 +399,21 @@
 
 		$ sudo wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz
 >	--2021-11-24 20:25:12--  https://mirror.yandex.ru/ubuntu/ls-lR.gz
+>
 >	Resolving mirror.yandex.ru (mirror.yandex.ru)... 213.180.204.183, 2a02:6b8::183
+>
 >	Connecting to mirror.yandex.ru (mirror.yandex.ru)|213.180.204.183|:443... connected.
+>
 >	HTTP request sent, awaiting response... 200 OK
+>
 >	Length: 22565143 (22M) [application/octet-stream]
+>
 >	Saving to: ‘/tmp/new/test.gz’
 >
+>
+>
 >	/tmp/new/test.gz    100%[==================>]  21.52M  3.37MB/s    in 7.6s    
+>
 >
 >	2021-11-24 20:25:21 (2.85 MB/s) - ‘/tmp/new/test.gz’ saved [22565143/22565143]
 
