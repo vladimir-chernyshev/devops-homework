@@ -6,39 +6,61 @@
 
 		$ telnet stackoverflow.com 80
 >	Trying 151.101.65.69...
+>
 >	Connected to stackoverflow.com.
+>
 >	Escape character is '^]'.
+>
 >	GET /questions HTTP/1.0
+>
 >	HOST: stackoverflow.com
+>
 >	
+>
 >	HTTP/1.1 301 Moved Permanently
+>
 >	cache-control: no-cache, no-store, must-revalidate
+>
 >	location: https://stackoverflow.com/questions
+>
 >	x-request-guid: 30a6dc6c-5d10-4aa7-bf69-ec204de671f4
+>
 >	feature-policy: microphone 'none'; speaker 'none'
+>
 >	content-security-policy: upgrade-insecure-requests; frame-ancestors 'self' https://stackexchange.com
+>
 >	Accept-Ranges: bytes
+>
 >	Date: Fri, 26 Nov 2021 21:32:41 GMT
+>
 >	Via: 1.1 varnish
+>
 >	Connection: close
+>
 >	X-Served-By: cache-hhn4024-HHN
+>
 >	X-Cache: MISS
+>
 >	X-Cache-Hits: 0
+>
 >	X-Timer: S1637962362.813128,VS0,VE184
+>
 >	Vary: Fastly-SSL
+>
 >	X-DNS-Prefetch-Control: off
+>
 >	Set-Cookie: prov=23a0167b-1554-1f9d-44b9-ec9e250bfe0a; domain=.stackoverflow.com; expires=Fri, 01-Jan-2055 00:00:00 GMT; path=/; HttpOnly
->	
+>
 
-Сервер вернул код HTTP 301. Согласно п. 6.4.2 [документа](https://www.rfc-editor.org/rfc/inline-errata/rfc7231.html), при получении кодов 3хх и наличии в ответе заголовка Location, клиент должен перенаправить запрос по адресу, указанному в заголовке Location. Код 301 (Moved Permanently) предполагает, что все последующие запросы к ресурсу клиент должен сразу перенаправлять по адресу, указанному в заголовке Location.
+ Сервер вернул код HTTP 301. Согласно п. 6.4.2 [документа](https://www.rfc-editor.org/rfc/inline-errata/rfc7231.html), при получении кодов 3хх и наличии в ответе заголовка Location, клиент должен перенаправить запрос по адресу, указанному в заголовке Location. Код 301 (Moved Permanently) предполагает, что все последующие запросы к ресурсу клиент должен сразу перенаправлять по адресу, указанному в заголовке Location.
 
 2. Повторите задание 1 в браузере используя консоль разработчика F12.
 ---
 
  -   откройте вкладку Network
- -   отправте запрос *http://stackoverflow.com*
+ -   отправьте запрос *http://stackoverflow.com*
  -   найдите первый ответ HTTP сервера, откройте вкладку Headers
- -   Укажите в ответе полученный HTTP код.
+ -   Укажите в ответе полученный HTTP код.  
 	Сервер отправил код 200 (ОК), вероятно, браузер Firefox подменил запрос *http://stackoverflow.com* на *https://stackoverflow.com*
  -   Проверьте время загрузки страницы, какой запрос обрабатывался дольше всего?
 	Времена обработки запроса находятся на вкладке Timings. Суммарное время загрузки страницы указано в столбце Downloaded: 3.83 с, дольше всего обрабатывался запрос "GET https://stackoverflow.com/" (Downloaded - Started = 1.116 c)
