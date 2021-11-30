@@ -20,8 +20,27 @@
 Используется концепция [VLAN](https://en.wikipedia.org/wiki/Virtual_LAN) (пакет *vlan*).
 Пример конфигурации:
 
+		$ sudo vconfig add eth0 2
+[ИЛИ](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_802_1q_vlan_tagging_using_the_command_line)
+		$ sudo ip link add link eth0 name eth0.4 type vlan id 4 
+
+		$ sudo ip addr add 192.168.1.4/24 dev eth0.4
+		$ sudo ip link set eth0.4 up
+
+
 4. Какие типы агрегации интерфейсов есть в Linux? Какие опции есть для балансировки нагрузки? Приведите пример конфига.
 ---
+
+В Linux существуют методы аггрегации интерфейсов [*teaming* и *bonding*](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/configuring_and_managing_networking/configuring-network-bonding_configuring-and-managing-networking).
+ Пример конфигурации 802.1ad *bonding*:
+
+		# ip link add bond0 type bond
+		# ip link set bond0 type bond mode 802.3ad
+		# ip link set em1 down
+		# ip link set em1 master bond0
+		# ip link set em2 down
+		# ip link set em2 master bond0
+		# ip link set bond0 up
 
 5. Сколько IP адресов в сети с маской /29 ? Сколько /29 подсетей можно получить из сети с маской /24. Приведите несколько примеров /29 подсетей внутри сети 10.10.10.0/24.
 ---
