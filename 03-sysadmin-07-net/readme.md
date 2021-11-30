@@ -21,7 +21,8 @@
 Пример конфигурации:
 
 		$ sudo vconfig add eth0 2
-[ИЛИ](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_802_1q_vlan_tagging_using_the_command_line)
+[ИЛИ](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_802_1q_vlan_tagging_using_the_command_line)
+
 		$ sudo ip link add link eth0 name eth0.4 type vlan id 4 
 
 		$ sudo ip addr add 192.168.1.4/24 dev eth0.4
