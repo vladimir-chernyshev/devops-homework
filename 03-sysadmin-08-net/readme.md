@@ -206,3 +206,27 @@
 >172.16.0.0/16 via 192.168.1.1 dev dummy0   
 >192.168.1.0/24 dev dummy0 proto kernel scope link src 192.168.1.1   
 
+3. Проверьте открытые TCP порты в Ubuntu, какие протоколы и приложения используют эти порты? Приведите несколько примеров.
+---
+
+		vagrant@vagrant:~$ sudo ss -4lpnt
+>State     Recv-Q    Send-Q       Local Address:Port        Peer Address:Port    Process                                                                           
+>LISTEN    0         4096               0.0.0.0:111              0.0.0.0:*        users:(("rpcbind",pid=573,fd=4),("systemd",pid=1,fd=35))                         
+>LISTEN    0         4096         127.0.0.53%lo:53               0.0.0.0:*        users:(("systemd-resolve",pid=575,fd=13))                                        
+>LISTEN    0         128                0.0.0.0:22               0.0.0.0:*        users:(("sshd",pid=834,fd=3))                                
+
+4. Проверьте используемые UDP сокеты в Ubuntu, какие протоколы и приложения используют эти порты?
+---
+
+		$ sudo ss -4lpnu
+>State     Recv-Q    Send-Q        Local Address:Port       Peer Address:Port    Process                                                                           
+>UNCONN    0         0             127.0.0.53%lo:53              0.0.0.0:*        users:(("systemd-resolve",pid=575,fd=12))                                        
+>UNCONN    0         0            10.0.2.15%eth0:68              0.0.0.0:*        users:(("systemd-network",pid=400,fd=19))                                        
+>UNCONN    0         0                   0.0.0.0:111             0.0.0.0:*        users:(("rpcbind",pid=573,fd=5),("systemd",pid=1,fd=36))   
+
+5. 
+
+    Используя diagrams.net, создайте L3 диаграмму вашей домашней сети или любой другой сети, с которой вы работали.
+---
+
+![draw.io](img/dia.png)
