@@ -189,4 +189,20 @@
 >      path 7FE18AF95B88 RPKI State not found  
 >      rx pathid: 0, tx pathid: 0  
 
+2. 
+
+    Создайте dummy0 интерфейс в Ubuntu. Добавьте несколько статических маршрутов. Проверьте таблицу маршрутизации.
+---
+
+		$ sudo ip link add dummy0 type dummy
+		$ sudo ip addr add 192.168.1.1/24 dev dummy0
+		$ sudo ip link set dummy0 up
+
+		$ sudo ip route add to 172.16.0.0/16 via 192.168.1.1
+		$ ip route
+>default via 10.0.2.2 dev eth0 proto dhcp src 10.0.2.15 metric 100   
+>10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15   
+>10.0.2.2 dev eth0 proto dhcp scope link src 10.0.2.15 metric 100   
+>172.16.0.0/16 via 192.168.1.1 dev dummy0   
+>192.168.1.0/24 dev dummy0 proto kernel scope link src 192.168.1.1   
 
