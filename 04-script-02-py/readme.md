@@ -8,12 +8,17 @@
 		b = '2'
 		c = a + b
 
-		Какое значение будет присвоено переменной c?
+Какое значение будет присвоено переменной c?
+
 		TypeError: unsupported operand type(s) for +: 'int' and 'str'
 		Операция сложения не поддерживает операнды разного типа.  
-		Как получить для переменной c значение 12?  
+
+Как получить для переменной c значение 12?  
+
 		c = str(a) + b
-		Как получить для переменной c значение 3?  
+
+Как получить для переменной c значение 3?  
+
 		c = a + int(b)
 
 2. Доработать скрипт, чтобы в выводе были все измененные файлы, а так же полный путь к каталогу, где они находятся.
@@ -46,15 +51,14 @@
 		bash_command = ["cd "+dir, "git status"]
 		result_os = os.popen(' && '.join(bash_command)).read()
 		#is_change = False
-		print(dir)
 		for result in result_os.split('\n'):
 		    if result.find('modified') != -1:
 		        prepare_result = result.replace('\tmodified:   ', '')
-		        print(prepare_result)
+		        print(os.path.abspath(prepare_result))
 		        break
 		    if result.find('new file') != -1:
 		        prepare_result = result.replace('\tnew file:   ', '')
-		        print(prepare_result)
+		        print(os.path.abspath(prepare_result))
 		        break
 		else:
 		    print("Nothing changed.")
@@ -75,15 +79,15 @@
 		dir=os.path.expanduser(sys.argv[1])
 		bash_command = ["cd "+dir, "git status"]
 		result_os = os.popen(' && '.join(bash_command)).read()
-		print(dir)
+		#print(dir)
 		for result in result_os.split('\n'):
 		    if result.find('modified') != -1:
 		        prepare_result = result.replace('\tmodified:   ', '')
-		        print(prepare_result)
+		        print(os.path.abspath(prepare_result))
 		        break
 		    if result.find('new file') != -1:
 		        prepare_result = result.replace('\tnew file:   ', '')
-		        print(prepare_result)
+		        print(os.path.abspath(prepare_result))
 		        break
 		else:
 		    print("Nothing changed.")
