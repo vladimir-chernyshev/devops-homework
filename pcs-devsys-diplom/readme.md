@@ -31,46 +31,46 @@ Vagrantfile:
 	$ sudo systemctl enable firewalld
 	$ sudo systemctl start firewalld  
 	$ sudo firewall-cmd --get-zone-of-interface=lo
-	no zone
+>	no zone
 	$ sudo firewall-cmd --get-active-zones
-	public
-	  interfaces: eth0 eth1
+>	public
+>	  interfaces: eth0 eth1
 	$ sudo firewall-cmd --info-zone=public
-	public (active)
-	  target: default
-	  icmp-block-inversion: no
-	  interfaces: eth0 eth1
-	  sources: 
-	  services: cockpit dhcpv6-client ssh
-	  ports: 
-	  protocols: 
-	  forward: no
-	  masquerade: no
-	  forward-ports: 
-	  source-ports: 
-	  icmp-blocks: 
-	  rich rules: 
+>	public (active)
+>	  target: default
+>	  icmp-block-inversion: no
+>	  interfaces: eth0 eth1
+>	  sources: 
+>	  services: cockpit dhcpv6-client ssh
+>	  ports: 
+>	  protocols: 
+>	  forward: no
+>	  masquerade: no
+>	  forward-ports: 
+>	  source-ports: 
+>	  icmp-blocks: 
+>	  rich rules: 
 	$ sudo firewall-cmd --add-service=https
 	$ sudo firewall-cmd --remove-service=cockpit --remove-service=dhcpv6-client
 	$ sudo firewall-cmd --info-zone=public
-	public (active)
-	  target: default
-	  icmp-block-inversion: no
-	  interfaces: eth0 eth1
-	  sources: 
-	  services: https ssh
-	  ports: 
-	  protocols: 
-	  forward: no
-	  masquerade: no
-	  forward-ports: 
-	  source-ports: 
-	  icmp-blocks: 
-	  rich rules: 
+>	public (active)
+>	  target: default
+>	  icmp-block-inversion: no
+>	  interfaces: eth0 eth1
+>	  sources: 
+>	  services: https ssh
+>	  ports: 
+>	  protocols: 
+>	  forward: no
+>	  masquerade: no
+>	  forward-ports: 
+>	  source-ports: 
+>	  icmp-blocks: 
+>	  rich rules: 
 	$ sudo firewall-cmd --runtime-to-permanent
 
 
-3. Установите hashicorp vault
+3. Установите Hashicorp **vault**:
 ---
 
 Установка пакета:
@@ -80,26 +80,26 @@ Vagrantfile:
 	$ sudo dnf -y install vault
 	$ sudo dnf -y install jq
 
-4. Cоздайте центр сертификации и выпустите сертификат для использования его в настройке веб-сервера nginx (срок жизни сертификата - месяц).
+4. Cоздайте центр сертификации и выпустите сертификат для использования его в настройке веб-сервера **nginx** (срок жизни сертификата - месяц).
 ---
 
-В установленный пакет **vault** входит и файл конфигурации, и service-файл для systemd:
+В установленный пакет **vault** входит и файл конфигурации, и service-файл для **systemd**:
 
 	$ cat /etc/vault.d/vault.hcl | sed /^#/d
 
-	ui = true
-	storage "file" {
-	  path = "/opt/vault/data"
-	}
-	listener "tcp" {
-	  address = "127.0.0.1:8201"
-	  tls_disable = 1
-	}
-	listener "tcp" {
-	  address       = "0.0.0.0:8200"
-	  tls_cert_file = "/opt/vault/tls/tls.crt"
-	  tls_key_file  = "/opt/vault/tls/tls.key"
-	}
+>	ui = true
+>	storage "file" {
+>	  path = "/opt/vault/data"
+>	}
+>	listener "tcp" {
+>	  address = "127.0.0.1:8201"
+>	  tls_disable = 1
+>	}
+>	listener "tcp" {
+>	  address       = "0.0.0.0:8200"
+>	  tls_cert_file = "/opt/vault/tls/tls.crt"
+>	  tls_key_file  = "/opt/vault/tls/tls.key"
+>	}
 
 	$ cat /usr/lib/systemd/system/vault.service
 
@@ -214,8 +214,122 @@ Vagrantfile:
 
 	$ vault write pki_int/issue/tochka-dot-com common_name="www.tochka.com" ttl="24h" > www.tochka.com.crt
 
+[Еще документ](https://www.vaultproject.io/docs/secrets/pki)
 
 5. Установите корневой сертификат созданного центра сертификации в доверенные в хостовой системе.
 ---
 
 Созданный корневой сертификат копируется на хостовую систему и добавляется как доверенный в ![Moziila Firefox](img/firefox_trust_cert.png)
+
+6. Установите **nginx**.
+
+	$ sudo dnf install nginx
+
+7. Настройте **nginx** на https, используя ранее подготовленный сертификат.
+---
+
+Согласно [документации](https://nginx.org/en/docs/http/configuring_https_servers.html), **nginx** может читать и сертификат, и ключ из одного файла, причем клиенту отсылается только сертификат. Кроме того, в тот же файл можно включить всю цепочку сертификатов до корневого, для этого требуется чтобы сертификать сервера **nginx** в файле размещался ранее цепочки сертификатов.
+ Скрипт **mkcrt.sh**, записывающий сертификат, ключ, цепочку доверия в нужном **nginx** порядке:
+
+	#! /bin/sh
+	#google-fu://tekanaid.com/posts/hashicorp-vault-pki-secrets-engine-demo-for-certificate-management/
+	
+	#where we put certificate
+	cert=/etc/pki/nginx/www.tochka.com.crt
+	umask 0177
+	tmp=$(mktemp)
+	VAULT_ADDR='http://127.0.0.1:8201' VAULT_TOKEN=s.fFQuxB0CuEHM1VoSDfxSfZno vault write pki_int/issue/tochka-dot-com common_name="www.tochka.com" ttl="24h" -format=json > $tmp
+	cat $tmp | jq -r '.data.certificate' > $cert
+	cat $tmp | jq -r '.data.private_key' >> $cert
+	cat $tmp | jq -r '.data.issuing_ca' >> $cert
+	cat $tmp | jq -r '.data.ca_chain[]' >> $cert
+	rm -f $tmp
+
+
+Конфигурация **nginx**:
+
+	$ sudo vi /etc/nginx/nginx.conf
+
+	    server {
+	        listen			443 ssl;
+	        server_name		www.tochka.com;
+		ssl_certificate		"/etc/pki/nginx/www.tochka.com.crt";
+		ssl_certificate_key	"/etc/pki/nginx/www.tochka.com.crt";
+	        ssl_protocols		TLSv1.3
+		}
+	[..]
+
+Запуск **nginx**:
+
+	$ sudo systemctl enable nginx
+	Created symlink /etc/systemd/system/multi-user.target.wants/nginx.service → /usr/lib/systemd/system/nginx.service.
+	$ sudo systemctl start nginx
+
+----
+На компьютере-клиенте
+Добавлена статическая DNS-запись в */etc/hosts*:
+
+	192.168.56.4    www.tochka.com
+
+[v@nb-chernyshev ~]$  openssl s_client -connect www.tochka.com:443
+CONNECTED(00000003)
+depth=1 CN = tochka.com Intermediate Authority
+verify error:num=20:unable to get local issuer certificate
+verify return:1
+depth=0 CN = www.tochka.com
+verify return:1
+---
+Certificate chain
+ 0 s:CN = www.tochka.com
+   i:CN = tochka.com Intermediate Authority
+ 1 s:CN = tochka.com Intermediate Authority
+   i:CN = tochka.com
+ 2 s:CN = tochka.com Intermediate Authority
+   i:CN = tochka.com
+
+8. Откройте в браузере на хосте https адрес страницы, которую обслуживает сервер nginx.
+---
+
+В отличии от **s_client**, в *Mozilla Firefox* добавлен корневой самоподписанный сертификат (см. п. 5).
+![Результат](img/1st_connect.png)
+
+![Сертификат](img/2nd_connect.png)
+
+9. Создайте скрипт, который будет генерировать новый сертификат в vault:
+---
+
+В скрипт из п.7 добавлена команда перезапуска **nginx** после перевыпуска сертификата:
+
+	#! /bin/sh
+	
+	cert=/etc/pki/nginx/www.tochka.com.crt
+	tmp=$(mktemp)
+	VAULT_ADDR='http://127.0.0.1:8201' VAULT_TOKEN=s.fFQuxB0CuEHM1VoSDfxSfZno vault write pki_int/issue/tochka-dot-com common_name="www.tochka.com" ttl="24h" -format=json > $tmp
+	cat $tmp | jq -r '.data.certificate' > $cert
+	cat $tmp | jq -r '.data.private_key' >> $cert
+	cat $tmp | jq -r '.data.issuing_ca' >> $cert
+	cat $tmp | jq -r '.data.ca_chain[]' >> $cert
+	systemctl reload nginx
+	rm -f $tmp
+
+
+10. Поместите скрипт в crontab, чтобы сертификат обновлялся какого-то числа каждого месяца в удобное для вас время.
+---
+
+Запуск скрипта из системного *crontab*, в порядке тестирования перевыпускаем сертификат каждые пять минут:
+
+	$sudo vi /etc/crontab
+
+	*/5  *  *  *  * root /etc/pki/nginx/mkcrt.sh
+
+Время модификации файла с сертификатами меняется каждые пять минут:
+![Файл с сертификатами](img/dates.png)
+
+Время окончания срока действия сертификата отличается на пять минут:
+![Первый сертификат](img/1st_cert.png)
+![Второй сертификат](img/2nd_cert.png)
+
+Настроен перевыпуск сертификата раз в сутки в 1:00 :
+
+	/etc/crontab
+	 0  1  * * * root /etc/pki/nginx/mkcrt.sh
