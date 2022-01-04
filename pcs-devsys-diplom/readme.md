@@ -233,7 +233,7 @@ Vagrantfile:
 
 >	Success! Data written to: pki_int/roles/tochka-dot-com  
 
-Выпуск сертификатов для *www.tochka.com* со сроком жизник 24 часа:
+Выпуск сертификатов для *www.tochka.com* со сроком жизни 24 часа:
 
 	$ vault write pki_int/issue/tochka-dot-com common_name="www.tochka.com" ttl="24h" > www.tochka.com.crt
 
@@ -242,7 +242,7 @@ Vagrantfile:
 5. Установите корневой сертификат созданного центра сертификации в доверенные в хостовой системе.
 ---
 
-Созданный корневой сертификат копируется на хостовую систему и добавляется как доверенный в ![Moziila Firefox](img/firefox_trust_cert.png)
+Созданный корневой сертификат копируется на хостовую систему и добавляется как доверенный в браузер ![Moziila Firefox](img/firefox_trust_cert.png)
 
 6. Установите **nginx**.
 
@@ -251,7 +251,7 @@ Vagrantfile:
 7. Настройте **nginx** на https, используя ранее подготовленный сертификат.
 ---
 
- Согласно [документации](https://nginx.org/en/docs/http/configuring_https_servers.html), **nginx** может читать и сертификат, и ключ из одного файла, причем клиенту отсылается только сертификат. Кроме того, в тот же файл можно включить всю цепочку сертификатов до корневого, для этого требуется чтобы сертификать сервера **nginx** в файле размещался ранее цепочки сертификатов.
+ Согласно [документации](https://nginx.org/en/docs/http/configuring_https_servers.html), **nginx** может читать и сертификат, и ключ из одного файла, причем клиенту отсылается только сертификат. Кроме того, в тот же файл можно включить всю цепочку сертификатов до корневого, для этого требуется чтобы сертификат сервера **nginx** в файле размещался ранее цепочки сертификатов.  
  Скрипт **mkcrt.sh**, записывающий сертификат, ключ, цепочку доверия в нужном **nginx** порядке:
 
 	#! /bin/sh
@@ -283,16 +283,17 @@ Vagrantfile:
 Запуск **nginx**:
 
 	$ sudo systemctl enable nginx
-	Created symlink /etc/systemd/system/multi-user.target.wants/nginx.service → /usr/lib/systemd/system/nginx.service.
+
+>	Created symlink /etc/systemd/system/multi-user.target.wants/nginx.service → /usr/lib/systemd/system/nginx.service.  
+
 	$ sudo systemctl start nginx
 
 ----
-На компьютере-клиенте
-Добавлена статическая DNS-запись в */etc/hosts*:
+На компьютере-клиенте добавлена статическая DNS-запись в */etc/hosts*:
 
 	192.168.56.4    www.tochka.com
 
-[v@nb-chernyshev ~]$  openssl s_client -connect www.tochka.com:443
+	$  openssl s_client -connect www.tochka.com:443
 CONNECTED(00000003)
 depth=1 CN = tochka.com Intermediate Authority
 verify error:num=20:unable to get local issuer certificate
@@ -354,3 +355,5 @@ Certificate chain
 
 	/etc/crontab
 	 0  1  * * * root /etc/pki/nginx/mkcrt.sh
+
+PS. Только доделав работу до конца, увидел требование выпускать сертификаты сроком жизни не сутки, а 30 дней. Это возможно сделать, изменив параметр *ttl* в команде выпуска сертификата в скрипте из п.9, после чего можно изменить расписание регенерации сертификата раз в 30 дней (вероятно, лучше задать срок жизни сертификата в 31 день и перевыпускать его в определенное число каждого месяца).
