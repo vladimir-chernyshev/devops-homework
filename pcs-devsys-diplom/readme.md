@@ -294,22 +294,23 @@ Vagrantfile:
 	192.168.56.4    www.tochka.com
 
 	$  openssl s_client -connect www.tochka.com:443
-CONNECTED(00000003)
-depth=1 CN = tochka.com Intermediate Authority
-verify error:num=20:unable to get local issuer certificate
-verify return:1
-depth=0 CN = www.tochka.com
-verify return:1
----
-Certificate chain
- 0 s:CN = www.tochka.com
-   i:CN = tochka.com Intermediate Authority
- 1 s:CN = tochka.com Intermediate Authority
-   i:CN = tochka.com
- 2 s:CN = tochka.com Intermediate Authority
-   i:CN = tochka.com
 
-8. Откройте в браузере на хосте https адрес страницы, которую обслуживает сервер nginx.
+>	CONNECTED(00000003)  
+>	depth=1 CN = tochka.com Intermediate Authority  
+>	verify error:num=20:unable to get local issuer certificate  
+>	verify return:1  
+>	depth=0 CN = www.tochka.com  
+>	verify return:1  
+>	---  
+>	Certificate chain  
+>	 0 s:CN = www.tochka.com  
+>	   i:CN = tochka.com Intermediate Authority  
+>	 1 s:CN = tochka.com Intermediate Authority  
+>	   i:CN = tochka.com  
+>	 2 s:CN = tochka.com Intermediate Authority  
+>	   i:CN = tochka.com  
+
+8. Откройте в браузере на хосте https адрес страницы, которую обслуживает сервер **nginx**.
 ---
 
 В отличии от **s_client**, в *Mozilla Firefox* добавлен корневой самоподписанный сертификат (см. п. 5).
