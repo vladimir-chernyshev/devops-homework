@@ -144,39 +144,42 @@ Vagrantfile:
 Распечатываем **vault** тремя ключами из вывода предыдущей команды:
 
 	$ VAULT_ADDR='http://127.0.0.1:8201' vault operator unseal
-	Key             Value
-	---             -----
-	Seal Type       shamir
-	Initialized     true
-	Sealed          false
-	Total Shares    5
-	Threshold       3
-	Version         1.9.2
-	Storage Type    file
-	Cluster Name    vault-cluster-d029a572
-	Cluster ID      4715631e-38d1-462e-97a5-f10e237a3b1e
-	HA Enabled      false
+
+>	Key             Value  
+>	---             -----  
+>	Seal Type       shamir  
+>	Initialized     true  
+>	Sealed          false  
+>	Total Shares    5  
+>	Threshold       3  
+>	Version         1.9.2  
+>	Storage Type    file  
+>	Cluster Name    vault-cluster-d029a572  
+>	Cluster ID      4715631e-38d1-462e-97a5-f10e237a3b1e  
+>	HA Enabled      false  
 
 Аутентификация корневым токеном:
 
 	$ VAULT_ADDR='http://127.0.0.1:8201' vault login s.fFQuxB0CuEHM1VoSDfxSfZno
-	Success! You are now authenticated. The token information displayed below
-	is already stored in the token helper. You do NOT need to run "vault login"
-	again. Future Vault requests will automatically use this token.
-	
-	Key                  Value
-	---                  -----
-	token                s.fFQuxB0CuEHM1VoSDfxSfZno
-	token_accessor       B8olHZS9czuFWFccOdyaDmLX
-	token_duration       ∞
-	token_renewable      false
-	token_policies       ["root"]
-	identity_policies    []
-	policies             ["root"]
+
+>	Success! You are now authenticated. The token information displayed below  
+>	is already stored in the token helper. You do NOT need to run "vault login"  
+>	again. Future Vault requests will automatically use this token.  
+>	  
+>	Key                  Value  
+>	---                  -----  
+>	token                s.fFQuxB0CuEHM1VoSDfxSfZno  
+>	token_accessor       B8olHZS9czuFWFccOdyaDmLX  
+>	token_duration       ∞  
+>	token_renewable      false  
+>	token_policies       ["root"]  
+>	identity_policies    []  
+>	policies             ["root"]  
 
 Подготовка политики:
 
 	$ vi vault_pki_pol.hcl
+
 	path "sys/mounts/*" {
 	  capabilities = [ "create", "read", "update", "delete", "list" ]
 	}
