@@ -24,49 +24,49 @@ Vagrantfile:
 2. Установите ufw и разрешите к этой машине сессии на порты 22 и 443, при этом трафик на интерфейсе localhost (lo) должен ходить свободно на все порты.
 ---
 
-В Телеграмм-чате курса был задан вопрос и эксперт Булат Замилов уточнил, что использование конкретно *ufw* не принципиально, буду использовать *firewalld* - связано со спецификой основной работы.
+В Телеграмм-чате курса был задан вопрос и эксперт Булат Замилов уточнил, что использование конкретно *ufw* не принципиально, будет использован *firewalld* - связано со спецификой основной работы.
 
 Включение **firewalld** и разрешение сервисов **ssh**, **https**:
 
 	$ sudo systemctl enable firewalld
 	$ sudo systemctl start firewalld  
 	$ sudo firewall-cmd --get-zone-of-interface=lo
->	no zone
+>	no zone  
 	$ sudo firewall-cmd --get-active-zones
->	public
->	  interfaces: eth0 eth1
-	$ sudo firewall-cmd --info-zone=public
->	public (active)
->	  target: default
->	  icmp-block-inversion: no
->	  interfaces: eth0 eth1
->	  sources: 
->	  services: cockpit dhcpv6-client ssh
->	  ports: 
->	  protocols: 
->	  forward: no
->	  masquerade: no
->	  forward-ports: 
->	  source-ports: 
->	  icmp-blocks: 
->	  rich rules: 
+>	public  
+>	  interfaces: eth0 eth1  
+	$ sudo firewall-cmd --info-zone=public  
+>	public (active)  
+>	  target: default  
+>	  icmp-block-inversion: no  
+>	  interfaces: eth0 eth1  
+>	  sources:   
+>	  services: cockpit dhcpv6-client ssh  
+>	  ports:   
+>	  protocols:   
+>	  forward: no  
+>	  masquerade: no  
+>	  forward-ports:   
+>	  source-ports:   
+>	  icmp-blocks:   
+>	  rich rules:   
 	$ sudo firewall-cmd --add-service=https
 	$ sudo firewall-cmd --remove-service=cockpit --remove-service=dhcpv6-client
 	$ sudo firewall-cmd --info-zone=public
->	public (active)
->	  target: default
->	  icmp-block-inversion: no
->	  interfaces: eth0 eth1
->	  sources: 
->	  services: https ssh
->	  ports: 
->	  protocols: 
->	  forward: no
->	  masquerade: no
->	  forward-ports: 
->	  source-ports: 
->	  icmp-blocks: 
->	  rich rules: 
+>	public (active)  
+>	  target: default  
+>	  icmp-block-inversion: no  
+>	  interfaces: eth0 eth1  
+>	  sources:   
+>	  services: https ssh  
+>	  ports:   
+>	  protocols:   
+>	  forward: no  
+>	  masquerade: no  
+>	  forward-ports:   
+>	  source-ports:   
+>	  icmp-blocks:   
+>	  rich rules:   
 	$ sudo firewall-cmd --runtime-to-permanent
 
 
