@@ -31,11 +31,16 @@ Vagrantfile:
 	$ sudo systemctl enable firewalld
 	$ sudo systemctl start firewalld  
 	$ sudo firewall-cmd --get-zone-of-interface=lo
+
 >	no zone  
+
 	$ sudo firewall-cmd --get-active-zones
+
 >	public  
 >	  interfaces: eth0 eth1  
+
 	$ sudo firewall-cmd --info-zone=public  
+
 >	public (active)  
 >	  target: default  
 >	  icmp-block-inversion: no  
@@ -50,9 +55,11 @@ Vagrantfile:
 >	  source-ports:   
 >	  icmp-blocks:   
 >	  rich rules:   
+
 	$ sudo firewall-cmd --add-service=https
 	$ sudo firewall-cmd --remove-service=cockpit --remove-service=dhcpv6-client
 	$ sudo firewall-cmd --info-zone=public
+
 >	public (active)  
 >	  target: default  
 >	  icmp-block-inversion: no  
@@ -67,8 +74,8 @@ Vagrantfile:
 >	  source-ports:   
 >	  icmp-blocks:   
 >	  rich rules:   
-	$ sudo firewall-cmd --runtime-to-permanent
 
+	$ sudo firewall-cmd --runtime-to-permanent
 
 3. Установите Hashicorp **vault**:
 ---
