@@ -180,48 +180,60 @@ Vagrantfile:
 
 	$ vi vault_pki_pol.hcl
 
-	path "sys/mounts/*" {
-	  capabilities = [ "create", "read", "update", "delete", "list" ]
-	}
-	path "sys/mounts" {
-	  capabilities = [ "read", "list" ]
-	}
-	path "pki*" {
-	  capabilities = [ "create", "read", "update", "delete", "list", "sudo" ]
-	}
+>	path "sys/mounts/*" {  
+>	  capabilities = [ "create", "read", "update", "delete", "list" ]  
+>	}  
+>	path "sys/mounts" {  
+>	  capabilities = [ "read", "list" ]  
+>	}  
+>	path "pki*" {  
+>	  capabilities = [ "create", "read", "update", "delete", "list", "sudo" ]  
+>	}  
 
 	$ VAULT_ADDR='http://127.0.0.1:8201' vault policy write pki ./vault_pki_pol.hcl 
-	Success! Uploaded policy: pki
+
+>	Success! Uploaded policy: pki  
 
 
 Генерация самоподписного корневого сертификата:
 
 	$ export VAULT_ADDR='http://127.0.0.1:8201' VAULT_TOKEN=s.fFQuxB0CuEHM1VoSDfxSfZno
 	$  vault secrets enable pki
-	Success! Enabled the pki secrets engine at: pki/
+
+>	Success! Enabled the pki secrets engine at: pki/  
+
 	$  vault secrets tune -max-lease-ttl=87600h pki
-	Success! Tuned the secrets engine at: pki/
+
+>	Success! Tuned the secrets engine at: pki/  
+
 	$  vault write -field=certificate pki/root/generate/internal common_name="tochka.com" ttl=87600h > CA.crt
 	$  vault write pki/config/urls issuing_certificates="$VAULT_ADDR/v1/pki/ca" crl_distribution_points="$VAULT_ADDR/v1/pki/crl"
-	Success! Data written to: pki/config/urls
+
+>	Success! Data written to: pki/config/urls  
 
 Генерация промежуточного сертификата:
 
 	$ vault secrets enable -path=pki_int pki
-	Success! Enabled the pki secrets engine at: pki_int/
+
+>	Success! Enabled the pki secrets engine at: pki_int/  
+
 	$ vault secrets tune -max-lease-ttl=43800h pki_int
-	Success! Tuned the secrets engine at: pki_int/
+
+>	Success! Tuned the secrets engine at: pki_int/  
+
 	$ vault write -format=json pki_int/intermediate/generate/internal common_name="tochka.com Intermediate Authority" | jq -r '.data.csr' > pki_intermediate.csr
 	$ vault write -format=json pki/root/sign-intermediate csr=@pki_intermediate.csr format=pem_bundle ttl="43800h" | jq -r '.data.certificate' > intermediate.cert.pem
 	$ vault write pki_int/intermediate/set-signed certificate=@intermediate.cert.pem
-	Success! Data written to: pki_int/intermediate/set-signed
 
-Создание роли tochka-dot-com:
+>	Success! Data written to: pki_int/intermediate/set-signed  
+
+Создание роли *tochka-dot-com*:
 
 	$ vault write pki_int/roles/tochka-dot-com allowed_domains="tochka.com" allow_subdomains=true max_ttl="720h"
-	Success! Data written to: pki_int/roles/tochka-dot-com
 
-Выпуск сертификатов для www.tochka.com со сроком жизник 24 часа:
+>	Success! Data written to: pki_int/roles/tochka-dot-com  
+
+Выпуск сертификатов для *www.tochka.com* со сроком жизник 24 часа:
 
 	$ vault write pki_int/issue/tochka-dot-com common_name="www.tochka.com" ttl="24h" > www.tochka.com.crt
 
@@ -239,7 +251,7 @@ Vagrantfile:
 7. Настройте **nginx** на https, используя ранее подготовленный сертификат.
 ---
 
-Согласно [документации](https://nginx.org/en/docs/http/configuring_https_servers.html), **nginx** может читать и сертификат, и ключ из одного файла, причем клиенту отсылается только сертификат. Кроме того, в тот же файл можно включить всю цепочку сертификатов до корневого, для этого требуется чтобы сертификать сервера **nginx** в файле размещался ранее цепочки сертификатов.
+ Согласно [документации](https://nginx.org/en/docs/http/configuring_https_servers.html), **nginx** может читать и сертификат, и ключ из одного файла, причем клиенту отсылается только сертификат. Кроме того, в тот же файл можно включить всю цепочку сертификатов до корневого, для этого требуется чтобы сертификать сервера **nginx** в файле размещался ранее цепочки сертификатов.
  Скрипт **mkcrt.sh**, записывающий сертификат, ключ, цепочку доверия в нужном **nginx** порядке:
 
 	#! /bin/sh
@@ -247,7 +259,6 @@ Vagrantfile:
 	
 	#where we put certificate
 	cert=/etc/pki/nginx/www.tochka.com.crt
-	umask 0177
 	tmp=$(mktemp)
 	VAULT_ADDR='http://127.0.0.1:8201' VAULT_TOKEN=s.fFQuxB0CuEHM1VoSDfxSfZno vault write pki_int/issue/tochka-dot-com common_name="www.tochka.com" ttl="24h" -format=json > $tmp
 	cat $tmp | jq -r '.data.certificate' > $cert
@@ -255,7 +266,6 @@ Vagrantfile:
 	cat $tmp | jq -r '.data.issuing_ca' >> $cert
 	cat $tmp | jq -r '.data.ca_chain[]' >> $cert
 	rm -f $tmp
-
 
 Конфигурация **nginx**:
 
