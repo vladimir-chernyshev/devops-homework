@@ -87,33 +87,33 @@ Vagrantfile:
 	$ sudo dnf -y install vault
 	$ sudo dnf -y install jq
 
-4. Cоздайте центр сертификации и выпустите сертификат для использования его в настройке веб-сервера **nginx** (срок жизни сертификата - месяц).
+4. Cоздайте центр сертификации и выпустите сертификат для использования его в настройке веб-сервера **nginx**.
 ---
 
 В установленный пакет **vault** входит и файл конфигурации, и service-файл для **systemd**:
 
 	$ cat /etc/vault.d/vault.hcl | sed /^#/d
 
->	ui = true
->	storage "file" {
->	  path = "/opt/vault/data"
->	}
->	listener "tcp" {
->	  address = "127.0.0.1:8201"
->	  tls_disable = 1
->	}
->	listener "tcp" {
->	  address       = "0.0.0.0:8200"
->	  tls_cert_file = "/opt/vault/tls/tls.crt"
->	  tls_key_file  = "/opt/vault/tls/tls.key"
->	}
+>	ui = true  
+>	storage "file" {  
+>	  path = "/opt/vault/data"  
+>	}  
+>	listener "tcp" {  
+>	  address = "127.0.0.1:8201"  
+>	  tls_disable = 1  
+>	}  
+>	listener "tcp" {  
+>	  address       = "0.0.0.0:8200"  
+>	  tls_cert_file = "/opt/vault/tls/tls.crt"  
+>	  tls_key_file  = "/opt/vault/tls/tls.key"  
+>	}  
 
 	$ cat /usr/lib/systemd/system/vault.service
 
-	EnvironmentFile=/etc/vault.d/vault.env
-	User=vault
-	Group=vault
-	ExecStart=/usr/bin/vault server -config=/etc/vault.d/vault.hcl
+>	EnvironmentFile=/etc/vault.d/vault.env  
+>	User=vault  
+>	Group=vault  
+>	ExecStart=/usr/bin/vault server -config=/etc/vault.d/vault.hcl  
 
 	$ sudo systemctl enable vault
 	$ sudo systemctl start vault
@@ -132,13 +132,14 @@ Vagrantfile:
  Инициализация **vault** согласно [документации](https://learn.hashicorp.com/tutorials/vault/getting-started-deploy?in=vault/getting-started):
 
 	$  VAULT_ADDR='http://127.0.0.1:8201' vault operator init
-	Unseal Key 1: xE7rpOmFc9jdYF75XCCyWePECajYxGMgnlWdwyMYalwG
-	Unseal Key 2: uOtdh6nFRlnP2c+uPcWqSPM6L3SWjpHWvdMXqjlLQYHr
-	Unseal Key 3: 0QbeD5UzEMX+MfIk+jWsmpMyOvrRTvYwJFdC+KReMn1V
-	Unseal Key 4: L7VUKdO5aWExnJCdRxnRr1Pcj/8zhvwGa+3ftRqVSHss
-	Unseal Key 5: jivC3cQsxY/Ce1buvuSAAS1K/gNPGRHVWQ1BzERcqakV
-	
-	Initial Root Token: s.fFQuxB0CuEHM1VoSDfxSfZno
+
+>	Unseal Key 1: xE7rpOmFc9jdYF75XCCyWePECajYxGMgnlWdwyMYalwG  
+>	Unseal Key 2: uOtdh6nFRlnP2c+uPcWqSPM6L3SWjpHWvdMXqjlLQYHr  
+>	Unseal Key 3: 0QbeD5UzEMX+MfIk+jWsmpMyOvrRTvYwJFdC+KReMn1V  
+>	Unseal Key 4: L7VUKdO5aWExnJCdRxnRr1Pcj/8zhvwGa+3ftRqVSHss  
+>	Unseal Key 5: jivC3cQsxY/Ce1buvuSAAS1K/gNPGRHVWQ1BzERcqakV  
+>	
+>	Initial Root Token: s.fFQuxB0CuEHM1VoSDfxSfZno    
 
 Распечатываем **vault** тремя ключами из вывода предыдущей команды:
 
