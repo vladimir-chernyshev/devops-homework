@@ -301,7 +301,7 @@ Vagrantfile:
 >	verify return:1  
 >	depth=0 CN = www.tochka.com  
 >	verify return:1  
->	---  
+>	- - -  
 >	Certificate chain  
 >	 0 s:CN = www.tochka.com  
 >	   i:CN = tochka.com Intermediate Authority  
