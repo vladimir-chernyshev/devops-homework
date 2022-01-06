@@ -321,13 +321,18 @@ Vagrantfile:
 9. Создайте скрипт, который будет генерировать новый сертификат в vault:
 ---
 
-В скрипт из п.7 добавлена команда перезапуска **nginx** после перевыпуска сертификата:
+В скрипт из п.7 добавлена команда перезапуска **nginx** после перевыпуска сертификата, кроме того, во избежание компрометации, значение *root token* читается из файла .vault-token в домашнем каталоге пользователя, от имени которого была произведена первоначальная аутентификация корневым токеном.  
+ Чтобы отвязать регенерацию сертификатов от наличия в системе конкретного пользователя, можно сделать жесткую ссылку на файл .vault-token в каталог */etc/pki/nginx/* :
 
+	$ sudo ln .vault-token /etc/pki/nginx/
+
+	
+	/etc/pki/nginx/mkcrt.sh:
 	#! /bin/sh
 	
 	cert=/etc/pki/nginx/www.tochka.com.crt
 	tmp=$(mktemp)
-	VAULT_ADDR='http://127.0.0.1:8201' VAULT_TOKEN=s.fFQuxB0CuEHM1VoSDfxSfZno vault write pki_int/issue/tochka-dot-com common_name="www.tochka.com" ttl="24h" -format=json > $tmp
+	VAULT_ADDR='http://127.0.0.1:8201' VAULT_TOKEN=$(cat /etc/pki/nginx/.vault-token) vault write pki_int/issue/tochka-dot-com common_name="www.tochka.com" ttl="24h" -format=json > $tmp
 	cat $tmp | jq -r '.data.certificate' > $cert
 	cat $tmp | jq -r '.data.private_key' >> $cert
 	cat $tmp | jq -r '.data.issuing_ca' >> $cert
@@ -360,3 +365,77 @@ Vagrantfile:
 PS. Только доделав работу до конца, увидел требование выпускать сертификаты сроком жизни не сутки, а 30 дней. Это возможно сделать, изменив параметр *ttl* в команде выпуска сертификата в скрипте из п.9, после чего можно изменить расписание регенерации сертификата раз в 30 дней (вероятно, лучше задать срок жизни сертификата в 31 день и перевыпускать его в определенное число каждого месяца). Прошу о снисхождении.  
  Заключительный скриншот, страница открывается без предупреждений браузера:  
 ![Welcome](img/welcome.png) 
+
+11. Доработать скрипт регенерации сертификатов на возможность распечатывания **vault**.
+---
+
+Подготовленный файл с ключами для распечатки **vault**, доступный для чтения только *root*:
+
+	/etc/pki/nginx/.vault-unseal  
+	xE7rpOmFc9jdYF75XCCyWePECajYxGMgnlWdwyMYalwG  
+	uOtdh6nFRlnP2c+uPcWqSPM6L3SWjpHWvdMXqjlLQYHr  
+	0QbeD5UzEMX+MfIk+jWsmpMyOvrRTvYwJFdC+KReMn1V  
+	L7VUKdO5aWExnJCdRxnRr1Pcj/8zhvwGa+3ftRqVSHss  
+	jivC3cQsxY/Ce1buvuSAAS1K/gNPGRHVWQ1BzERcqakV  
+
+Дополнительно имеем файл с корневым токеном:
+
+	/etc/pki/nginx/.vault-token
+	s.fFQuxB0CuEHM1VoSDfxSfZno
+
+Доработанный скипт из п.9:
+
+	/etc/pki/nginx/mkcrt.sh
+>#! /usr/bin/bash  
+>  
+>token_file=/etc/pki/nginx/.vault-token  
+>keys_file=/etc/pki/nginx/.vault-unseal  
+>export VAULT_ADDR='http://127.0.0.1:8201' VAULT_TOKEN=$(cat $token_file)  
+>  
+>vault status 2>&1 >/dev/null  
+>if [[ $? == 2 ]]  
+>then  
+> keys=()  
+> while read key  
+> do  
+>  keys+=($key)  
+> done < $keys_file  
+> while :  
+> do  
+>  vault status 2>&1 >/dev/null  
+>  if [[ $? == 2 ]]  
+>  then  
+>   i=$(( $RANDOM % ${#keys[@]} ))  
+>   vault operator unseal ${keys[$i]} 2>1 >/dev/null  
+>  else  
+>   break  
+>  fi  
+> done  
+>fi  
+>  
+>  
+>cert=/etc/pki/nginx/www.tochka.com.crt  
+>tmp=$(mktemp)  
+>vault write pki_int/issue/tochka-dot-com common_name="www.tochka.com" ttl="24h" -format=json > $tmp  
+>cat $tmp | jq -r '.data.certificate' > $cert  
+>cat $tmp | jq -r '.data.private_key' >> $cert   
+>cat $tmp | jq -r '.data.issuing_ca' >> $cert  
+>cat $tmp | jq -r '.data.ca_chain[]' >> $cert  
+>systemctl reload nginx  
+>rm -f $tmp  
+
+Скрипт проверяет, не запечатан ли **vault**, и если запечатан, читает *unseal*-ключи в массив *keys* и вводит по одному ключу, выбирая их случайным образом.
+
+
+Отладочный вывод скрипта при запечатанном **vault**:
+
+![Отладка 1](img/debug1.png)
+![Отладка 2](img/debug2.png)
+
+Отладочный вывод скрипта при распечатанном **vault**:
+
+![Отладка 3](img/debug3.png)
+
+Сайт работоспособен:
+
+![Welcome](img/welcome2.png)
