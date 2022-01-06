@@ -386,43 +386,44 @@ PS. Только доделав работу до конца, увидел тр�
 Доработанный скипт из п.9:
 
 	/etc/pki/nginx/mkcrt.sh
->#! /usr/bin/bash  
->  
->token_file=/etc/pki/nginx/.vault-token  
->keys_file=/etc/pki/nginx/.vault-unseal  
->export VAULT_ADDR='http://127.0.0.1:8201' VAULT_TOKEN=$(cat $token_file)  
->  
->vault status 2>&1 >/dev/null  
->if [[ $? == 2 ]]  
->then  
-> keys=()  
-> while read key  
-> do  
->  keys+=($key)  
-> done < $keys_file  
-> while :  
-> do  
->  vault status 2>&1 >/dev/null  
->  if [[ $? == 2 ]]  
->  then  
->   i=$(( $RANDOM % ${#keys[@]} ))  
->   vault operator unseal ${keys[$i]} 2>1 >/dev/null  
->  else  
->   break  
->  fi  
-> done  
->fi  
->  
->  
->cert=/etc/pki/nginx/www.tochka.com.crt  
->tmp=$(mktemp)  
->vault write pki_int/issue/tochka-dot-com common_name="www.tochka.com" ttl="24h" -format=json > $tmp  
->cat $tmp | jq -r '.data.certificate' > $cert  
->cat $tmp | jq -r '.data.private_key' >> $cert   
->cat $tmp | jq -r '.data.issuing_ca' >> $cert  
->cat $tmp | jq -r '.data.ca_chain[]' >> $cert  
->systemctl reload nginx  
->rm -f $tmp  
+```bash
+#! /usr/bin/bash  
+  
+token_file=/etc/pki/nginx/.vault-token  
+keys_file=/etc/pki/nginx/.vault-unseal  
+export VAULT_ADDR='http://127.0.0.1:8201' VAULT_TOKEN=$(cat $token_file)  
+  
+vault status 2>&1 >/dev/null  
+if [[ $? == 2 ]]  
+then  
+ keys=()  
+ while read key  
+ do  
+  keys+=($key)  
+ done < $keys_file  
+ while :  
+ do  
+  vault status 2>&1 >/dev/null  
+  if [[ $? == 2 ]]  
+  then  
+   i=$(( $RANDOM % ${#keys[@]} ))  
+   vault operator unseal ${keys[$i]} 2>1 >/dev/null  
+  else  
+   break  
+  fi  
+ done  
+fi  
+  
+cert=/etc/pki/nginx/www.tochka.com.crt  
+tmp=$(mktemp)  
+vault write pki_int/issue/tochka-dot-com common_name="www.tochka.com" ttl="24h" -format=json > $tmp  
+cat $tmp | jq -r '.data.certificate' > $cert  
+cat $tmp | jq -r '.data.private_key' >> $cert   
+cat $tmp | jq -r '.data.issuing_ca' >> $cert  
+cat $tmp | jq -r '.data.ca_chain[]' >> $cert  
+systemctl reload nginx  
+rm -f $tmp  
+```
 
 Скрипт проверяет, не запечатан ли **vault**, и если запечатан, читает *unseal*-ключи в массив *keys* и вводит по одному ключу, выбирая их случайным образом.
 
