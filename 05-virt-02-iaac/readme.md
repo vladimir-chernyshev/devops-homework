@@ -8,7 +8,7 @@
  - увеличение скорости выполнения операций;
  - снижение риска человеческой ошибки.
 
-Основопологающий принцип Iaac - идемпонентность, то есть неизменность результата безотносительно количества повторов операций.
+Основопологающий принцип IaaC - идемпонентность, то есть неизменность результата безотносительно количества повторов операций.
 
 2. Чем Ansible выгодно отличается от других систем управление конфигурациями? Какой, на ваш взгляд, метод работы систем конфигурации более надёжный, *push* или *pull?*
 
@@ -19,125 +19,125 @@
 
 ---
  - VirtualBox
->	$ sudo dnf install VirtualBox-6.1
->	Last metadata expiration check: 0:00:22 ago on Wed 19 Jan 2022 12:06:45 AM +05.
->	Package VirtualBox-6.1-6.1.30_148432_fedora33-1.x86_64 is already installed.
->	Dependencies resolved.
->	Nothing to do.
->	Complete!
+>	$ sudo dnf install VirtualBox-6.1  
+>	Last metadata expiration check: 0:00:22 ago on Wed 19 Jan 2022 12:06:45 AM +05.  
+>	Package VirtualBox-6.1-6.1.30_148432_fedora33-1.x86_64 is already installed.  
+>	Dependencies resolved.  
+>	Nothing to do.  
+>	Complete!  
 
  - Vagrant
 
->	$ sudo dnf install vagrant
->	Last metadata expiration check: 0:02:50 ago on Wed 19 Jan 2022 12:06:45 AM +05.
->	Package vagrant-2.2.19-1.x86_64 is already installed.
->	Dependencies resolved.
->	Nothing to do.
->	Complete!
+>	$ sudo dnf install vagrant  
+>	Last metadata expiration check: 0:02:50 ago on Wed 19 Jan 2022 12:06:45 AM +05.  
+>	Package vagrant-2.2.19-1.x86_64 is already installed.  
+>	Dependencies resolved.  
+>	Nothing to do.  
+>	Complete!  
 
  - Ansible
 
->	$ sudo dnf install ansible
->	Last metadata expiration check: 0:04:13 ago on Wed 19 Jan 2022 12:06:45 AM +05.
->	Dependencies resolved.
->	================================================================================
->	 Package                    Arch        Version              Repository    Size
->	================================================================================
->	Installing:
->	 ansible                    noarch      2.9.27-1.fc35        updates       15 M
->	Installing dependencies:
->	 python3-babel              noarch      2.9.1-4.fc35         fedora       5.8 M
->	 python3-bcrypt             x86_64      3.2.0-1.fc35         fedora        43 k
->	 python3-jinja2             noarch      3.0.1-2.fc35         fedora       529 k
->	 python3-jmespath           noarch      0.10.0-4.fc35        fedora        46 k
->	 python3-ntlm-auth          noarch      1.5.0-4.fc35         fedora        53 k
->	 python3-pynacl             x86_64      1.4.0-4.fc35         fedora       108 k
->	 python3-pytz               noarch      2021.3-1.fc35        updates       47 k
->	 python3-pyyaml             x86_64      5.4.1-4.fc35         fedora       191 k
->	 python3-requests_ntlm      noarch      1.1.0-16.fc35        fedora        18 k
->	 python3-xmltodict          noarch      0.12.0-13.fc35       fedora        22 k
->	Installing weak dependencies:
->	 python3-paramiko           noarch      2.9.1-1.fc35         updates      295 k
->	 python3-pyasn1             noarch      0.4.8-7.fc35         fedora       134 k
->	 python3-winrm              noarch      0.4.1-4.fc35         fedora        80 k
->	
->	Transaction Summary
->	================================================================================
->	Install  14 Packages
->	
->	Total download size: 23 M
->	Installed size: 130 M
->	Is this ok [y/N]: y
->	Downloading Packages:
->	(1/14): python3-bcrypt-3.2.0-1.fc35.x86_64.rpm   61 kB/s |  43 kB     00:00    
->	(2/14): python3-jmespath-0.10.0-4.fc35.noarch.r 306 kB/s |  46 kB     00:00    
->	(3/14): python3-ntlm-auth-1.5.0-4.fc35.noarch.r 200 kB/s |  53 kB     00:00    
->	(4/14): python3-jinja2-3.0.1-2.fc35.noarch.rpm  395 kB/s | 529 kB     00:01    
->	(5/14): python3-pyasn1-0.4.8-7.fc35.noarch.rpm  287 kB/s | 134 kB     00:00    
->	(6/14): python3-pynacl-1.4.0-4.fc35.x86_64.rpm  322 kB/s | 108 kB     00:00    
->	(7/14): python3-pyyaml-5.4.1-4.fc35.x86_64.rpm  480 kB/s | 191 kB     00:00    
->	(8/14): python3-requests_ntlm-1.1.0-16.fc35.noa  44 kB/s |  18 kB     00:00    
->	(9/14): python3-winrm-0.4.1-4.fc35.noarch.rpm   125 kB/s |  80 kB     00:00    
->	(10/14): python3-xmltodict-0.12.0-13.fc35.noarc  28 kB/s |  22 kB     00:00    
->	(11/14): python3-babel-2.9.1-4.fc35.noarch.rpm  1.8 MB/s | 5.8 MB     00:03    
->	(12/14): python3-paramiko-2.9.1-1.fc35.noarch.r 521 kB/s | 295 kB     00:00    
->	(13/14): python3-pytz-2021.3-1.fc35.noarch.rpm  176 kB/s |  47 kB     00:00    
->	(14/14): ansible-2.9.27-1.fc35.noarch.rpm       2.6 MB/s |  15 MB     00:05    
->	--------------------------------------------------------------------------------
->	Total                                           1.7 MB/s |  23 MB     00:13     
->	Running transaction check
->	Transaction check succeeded.
->	Running transaction test
->	Transaction test succeeded.
->	Running transaction
->	  Preparing        :                                                        1/1 
->	  Installing       : python3-pytz-2021.3-1.fc35.noarch                     1/14 
->	  Installing       : python3-babel-2.9.1-4.fc35.noarch                     2/14 
->	  Installing       : python3-jinja2-3.0.1-2.fc35.noarch                    3/14 
->	  Installing       : python3-xmltodict-0.12.0-13.fc35.noarch               4/14 
->	  Installing       : python3-pyyaml-5.4.1-4.fc35.x86_64                    5/14 
->	  Installing       : python3-pynacl-1.4.0-4.fc35.x86_64                    6/14 
->	  Installing       : python3-pyasn1-0.4.8-7.fc35.noarch                    7/14 
->	  Installing       : python3-ntlm-auth-1.5.0-4.fc35.noarch                 8/14 
->	  Installing       : python3-requests_ntlm-1.1.0-16.fc35.noarch            9/14 
->	  Installing       : python3-winrm-0.4.1-4.fc35.noarch                    10/14 
->	  Installing       : python3-jmespath-0.10.0-4.fc35.noarch                11/14 
->	  Installing       : python3-bcrypt-3.2.0-1.fc35.x86_64                   12/14 
->	  Installing       : python3-paramiko-2.9.1-1.fc35.noarch                 13/14 
->	  Installing       : ansible-2.9.27-1.fc35.noarch                         14/14 
->	  Running scriptlet: ansible-2.9.27-1.fc35.noarch                         14/14 
->	  Verifying        : python3-babel-2.9.1-4.fc35.noarch                     1/14 
->	  Verifying        : python3-bcrypt-3.2.0-1.fc35.x86_64                    2/14 
->	  Verifying        : python3-jinja2-3.0.1-2.fc35.noarch                    3/14 
->	  Verifying        : python3-jmespath-0.10.0-4.fc35.noarch                 4/14 
->	  Verifying        : python3-ntlm-auth-1.5.0-4.fc35.noarch                 5/14 
->	  Verifying        : python3-pyasn1-0.4.8-7.fc35.noarch                    6/14 
->	  Verifying        : python3-pynacl-1.4.0-4.fc35.x86_64                    7/14 
->	  Verifying        : python3-pyyaml-5.4.1-4.fc35.x86_64                    8/14 
->	  Verifying        : python3-requests_ntlm-1.1.0-16.fc35.noarch            9/14 
->	  Verifying        : python3-winrm-0.4.1-4.fc35.noarch                    10/14 
+>	$ sudo dnf install ansible  
+>	Last metadata expiration check: 0:04:13 ago on Wed 19 Jan 2022 12:06:45 AM +05.  
+>	Dependencies resolved.  
+>	================================================================================  
+>	 Package                    Arch        Version              Repository    Size  
+>	================================================================================  
+>	Installing:  
+>	 ansible                    noarch      2.9.27-1.fc35        updates       15 M  
+>	Installing dependencies:  
+>	 python3-babel              noarch      2.9.1-4.fc35         fedora       5.8 M  
+>	 python3-bcrypt             x86_64      3.2.0-1.fc35         fedora        43 k  
+>	 python3-jinja2             noarch      3.0.1-2.fc35         fedora       529 k  
+>	 python3-jmespath           noarch      0.10.0-4.fc35        fedora        46 k  
+>	 python3-ntlm-auth          noarch      1.5.0-4.fc35         fedora        53 k  
+>	 python3-pynacl             x86_64      1.4.0-4.fc35         fedora       108 k  
+>	 python3-pytz               noarch      2021.3-1.fc35        updates       47 k  
+>	 python3-pyyaml             x86_64      5.4.1-4.fc35         fedora       191 k  
+>	 python3-requests_ntlm      noarch      1.1.0-16.fc35        fedora        18 k  
+>	 python3-xmltodict          noarch      0.12.0-13.fc35       fedora        22 k  
+>	Installing weak dependencies:  
+>	 python3-paramiko           noarch      2.9.1-1.fc35         updates      295 k  
+>	 python3-pyasn1             noarch      0.4.8-7.fc35         fedora       134 k  
+>	 python3-winrm              noarch      0.4.1-4.fc35         fedora        80 k  
+>	    
+>	Transaction Summary  
+>	================================================================================  
+>	Install  14 Packages  
+>	  
+>	Total download size: 23 M  
+>	Installed size: 130 M  
+>	Is this ok [y/N]: y  
+>	Downloading Packages:  
+>	(1/14): python3-bcrypt-3.2.0-1.fc35.x86_64.rpm   61 kB/s |  43 kB     00:00      
+>	(2/14): python3-jmespath-0.10.0-4.fc35.noarch.r 306 kB/s |  46 kB     00:00      
+>	(3/14): python3-ntlm-auth-1.5.0-4.fc35.noarch.r 200 kB/s |  53 kB     00:00      
+>	(4/14): python3-jinja2-3.0.1-2.fc35.noarch.rpm  395 kB/s | 529 kB     00:01      
+>	(5/14): python3-pyasn1-0.4.8-7.fc35.noarch.rpm  287 kB/s | 134 kB     00:00      
+>	(6/14): python3-pynacl-1.4.0-4.fc35.x86_64.rpm  322 kB/s | 108 kB     00:00      
+>	(7/14): python3-pyyaml-5.4.1-4.fc35.x86_64.rpm  480 kB/s | 191 kB     00:00      
+>	(8/14): python3-requests_ntlm-1.1.0-16.fc35.noa  44 kB/s |  18 kB     00:00      
+>	(9/14): python3-winrm-0.4.1-4.fc35.noarch.rpm   125 kB/s |  80 kB     00:00      
+>	(10/14): python3-xmltodict-0.12.0-13.fc35.noarc  28 kB/s |  22 kB     00:00      
+>	(11/14): python3-babel-2.9.1-4.fc35.noarch.rpm  1.8 MB/s | 5.8 MB     00:03      
+>	(12/14): python3-paramiko-2.9.1-1.fc35.noarch.r 521 kB/s | 295 kB     00:00      
+>	(13/14): python3-pytz-2021.3-1.fc35.noarch.rpm  176 kB/s |  47 kB     00:00      
+>	(14/14): ansible-2.9.27-1.fc35.noarch.rpm       2.6 MB/s |  15 MB     00:05        
+>	--------------------------------------------------------------------------------  
+>	Total                                           1.7 MB/s |  23 MB     00:13       
+>	Running transaction check  
+>	Transaction check succeeded.    
+>	Running transaction test  
+>	Transaction test succeeded.  
+>	Running transaction  
+>	  Preparing        :                                                        1/1   
+>	  Installing       : python3-pytz-2021.3-1.fc35.noarch                     1/14   
+>	  Installing       : python3-babel-2.9.1-4.fc35.noarch                     2/14   
+>	  Installing       : python3-jinja2-3.0.1-2.fc35.noarch                    3/14   
+>	  Installing       : python3-xmltodict-0.12.0-13.fc35.noarch               4/14   
+>	  Installing       : python3-pyyaml-5.4.1-4.fc35.x86_64                    5/14   
+>	  Installing       : python3-pynacl-1.4.0-4.fc35.x86_64                    6/14   
+>	  Installing       : python3-pyasn1-0.4.8-7.fc35.noarch                    7/14   
+>	  Installing       : python3-ntlm-auth-1.5.0-4.fc35.noarch                 8/14   
+>	  Installing       : python3-requests_ntlm-1.1.0-16.fc35.noarch            9/14   
+>	  Installing       : python3-winrm-0.4.1-4.fc35.noarch                    10/14   
+>	  Installing       : python3-jmespath-0.10.0-4.fc35.noarch                11/14   
+>	  Installing       : python3-bcrypt-3.2.0-1.fc35.x86_64                   12/14   
+>	  Installing       : python3-paramiko-2.9.1-1.fc35.noarch                 13/14   
+>	  Installing       : ansible-2.9.27-1.fc35.noarch                         14/14   
+>	  Running scriptlet: ansible-2.9.27-1.fc35.noarch                         14/14   
+>	  Verifying        : python3-babel-2.9.1-4.fc35.noarch                     1/14   
+>	  Verifying        : python3-bcrypt-3.2.0-1.fc35.x86_64                    2/14   
+>	  Verifying        : python3-jinja2-3.0.1-2.fc35.noarch                    3/14   
+>	  Verifying        : python3-jmespath-0.10.0-4.fc35.noarch                 4/14   
+>	  Verifying        : python3-ntlm-auth-1.5.0-4.fc35.noarch                 5/14   
+>	  Verifying        : python3-pyasn1-0.4.8-7.fc35.noarch                    6/14   
+>	  Verifying        : python3-pynacl-1.4.0-4.fc35.x86_64                    7/14   
+>	  Verifying        : python3-pyyaml-5.4.1-4.fc35.x86_64                    8/14   
+>	  Verifying        : python3-requests_ntlm-1.1.0-16.fc35.noarch            9/14   
+>	  Verifying        : python3-winrm-0.4.1-4.fc35.noarch                    10/14   
 >	  Verifying        : python3-xmltodict-0.12.0-13.fc35.noarch              11/14 
->	  Verifying        : ansible-2.9.27-1.fc35.noarch                         12/14 
->	  Verifying        : python3-paramiko-2.9.1-1.fc35.noarch                 13/14 
->	  Verifying        : python3-pytz-2021.3-1.fc35.noarch                    14/14 
->	
->	Installed:
->	  ansible-2.9.27-1.fc35.noarch                                                  
->	  python3-babel-2.9.1-4.fc35.noarch                                             
->	  python3-bcrypt-3.2.0-1.fc35.x86_64                                            
->	  python3-jinja2-3.0.1-2.fc35.noarch                                            
->	  python3-jmespath-0.10.0-4.fc35.noarch                                         
->	  python3-ntlm-auth-1.5.0-4.fc35.noarch                                         
->	  python3-paramiko-2.9.1-1.fc35.noarch                                          
->	  python3-pyasn1-0.4.8-7.fc35.noarch                                            
->	  python3-pynacl-1.4.0-4.fc35.x86_64                                            
->	  python3-pytz-2021.3-1.fc35.noarch                                             
->	  python3-pyyaml-5.4.1-4.fc35.x86_64                                            
->	  python3-requests_ntlm-1.1.0-16.fc35.noarch                                    
->	  python3-winrm-0.4.1-4.fc35.noarch                                             
->	  python3-xmltodict-0.12.0-13.fc35.noarch                                       
->	
->	Complete!
+>	  Verifying        : ansible-2.9.27-1.fc35.noarch                         12/14   
+>	  Verifying        : python3-paramiko-2.9.1-1.fc35.noarch                 13/14   
+>	  Verifying        : python3-pytz-2021.3-1.fc35.noarch                    14/14   
+>	  
+>	Installed:  
+>	  ansible-2.9.27-1.fc35.noarch                                                    
+>	  python3-babel-2.9.1-4.fc35.noarch                                               
+>	  python3-bcrypt-3.2.0-1.fc35.x86_64                                              
+>	  python3-jinja2-3.0.1-2.fc35.noarch                                              
+>	  python3-jmespath-0.10.0-4.fc35.noarch                                           
+>	  python3-ntlm-auth-1.5.0-4.fc35.noarch                                           
+>	  python3-paramiko-2.9.1-1.fc35.noarch                                            
+>	  python3-pyasn1-0.4.8-7.fc35.noarch                                              
+>	  python3-pynacl-1.4.0-4.fc35.x86_64                                              
+>	  python3-pytz-2021.3-1.fc35.noarch                                               
+>	  python3-pyyaml-5.4.1-4.fc35.x86_64                                              
+>	  python3-requests_ntlm-1.1.0-16.fc35.noarch                                      
+>	  python3-winrm-0.4.1-4.fc35.noarch                                               
+>	  python3-xmltodict-0.12.0-13.fc35.noarch                                         
+>	  
+>	Complete!  
 
 4. Создать виртуальную машину.
 ---
