@@ -41,7 +41,7 @@
 
 		[vagrant@localhost ~]$  docker run -d --name nginx -p 192.168.56.4:8080:80 cc44224bfe20
 		218c448312e9e269ee52c90f82502a9120dd15c0affaf15e90c25b435a769d67
-[Network](https://docs.docker.com/config/containers/container-networking/)
+[Network](https://docs.docker.com/config/containers/container-networking/)  
 		[vagrant@localhost ~]$ docker port -l
 		80/tcp -> 192.168.56.4:8080
 
@@ -49,13 +49,13 @@
 		success
 
 
-Сеть на ноутбуке:
-		[v@nb-chernyshev ~]$ ip addr | egrep inet
-		    inet 192.168.56.1/24 brd 192.168.56.255 scope global vboxnet0
-Сеть на виртуальной машине:
-		[vagrant@localhost ~]$ ip addr | egrep inet
-		    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic noprefixroute eth0
-		    inet 192.168.56.4/24 brd 192.168.56.255 scope global dynamic noprefixroute eth1
+Сеть на ноутбуке:  
+		[v@nb-chernyshev ~]$ ip addr | egrep inet  
+		    inet 192.168.56.1/24 brd 192.168.56.255 scope global vboxnet0  
+Сеть на виртуальной машине:  
+		[vagrant@localhost ~]$ ip addr | egrep inet  
+		    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic noprefixroute eth0  
+		    inet 192.168.56.4/24 brd 192.168.56.255 scope global dynamic noprefixroute eth1  
 
 ![Welcome to nginx](img/welcome.png)
 
@@ -101,7 +101,7 @@
 [vagrant@localhost ~]$ docker run -d -p 192.168.56.4:8080:80 75ffc05c7383
 cbb6fab46eb174f627ba95a5936daa8dda4cfa49cfac438d4e02ff2cbc192fe6
 
-[Загрузка модифицированного образа в хаб](https://docs.docker.com/docker-hub/repos/):
+[Загрузка модифицированного образа в хаб](https://docs.docker.com/docker-hub/repos/):  
 		[vagrant@localhost ~]$ docker tag 75ffc05c7383 vladimirchernyshev/devops-netology:5.3
 
 		[vagrant@localhost ~]$ docker login docker.io
@@ -122,7 +122,7 @@ cbb6fab46eb174f627ba95a5936daa8dda4cfa49cfac438d4e02ff2cbc192fe6
 		Writing manifest to image destination
 		Storing signatures
 
-[Ссылка на репозиторий](https://hub.docker.com/r/vladimirchernyshev/devops-netology)
+[Ссылка на репозиторий](https://hub.docker.com/r/vladimirchernyshev/devops-netology)  
 		[vagrant@localhost ~]$ docker search  vladimirchernyshev 
 		INDEX       NAME                                          DESCRIPTION  STARS       OFFICIAL    AUTOMATED
 		docker.io   docker.io/vladimirchernyshev/devops-netology               0       
@@ -136,22 +136,22 @@ cbb6fab46eb174f627ba95a5936daa8dda4cfa49cfac438d4e02ff2cbc192fe6
 	Подойдут все три варианта, так как даже контейнеризированные приложения выполняются near-native OS
 -    Мобильное приложение c версиями для Android и iOS;  
 	Подойдет пара виртуальных машин, так как требуется запуск приложения в разных ОС
--    Шина данных на базе Apache Kafka;
+-    Шина данных на базе Apache Kafka;  
 	Подойдут все три варианта, так как даже контейнеризированные приложения выполняются near-native OS
--    Elasticsearch кластер для реализации логирования продуктивного веб-приложения - три ноды elasticsearch, два logstash и две ноды kibana;
+-    Elasticsearch кластер для реализации логирования продуктивного веб-приложения - три ноды elasticsearch, два logstash и две ноды kibana;  
 	Подойдут все три варианта, так как даже контейнеризированные приложения выполняются near-native OS
--    Мониторинг-стек на базе Prometheus и Grafana;
+-    Мониторинг-стек на базе Prometheus и Grafana;  
 	Подойдут все три варианта, так как даже контейнеризированные приложения выполняются near-native OS
--    MongoDB, как основное хранилище данных для java-приложения;
+-    MongoDB, как основное хранилище данных для java-приложения;  
 	Подойдут все три варианта, так как даже контейнеризированные приложения выполняются near-native OS
--    Gitlab сервер для реализации CI/CD процессов и приватный (закрытый) Docker Registry.
+-    Gitlab сервер для реализации CI/CD процессов и приватный (закрытый) Docker Registry.  
 	Подойдут все три варианта, так как даже контейнеризированные приложения выполняются near-native OS
 
-3. Запустите первый контейнер из образа centos c любым тэгом в фоновом режиме, подключив папку /data из текущей рабочей директории на хостовой машине в /data контейнера;
-    Запустите второй контейнер из образа debian в фоновом режиме, подключив папку /data из текущей рабочей директории на хостовой машине в /data контейнера;
-    Подключитесь к первому контейнеру с помощью docker exec и создайте текстовый файл любого содержания в /data;
-    Добавьте еще один файл в папку /data на хостовой машине;
-    Подключитесь во второй контейнер и отобразите листинг и содержание файлов в /data контейнера.
+3. Запустите первый контейнер из образа centos c любым тэгом в фоновом режиме, подключив папку /data из текущей рабочей директории на хостовой машине в /data контейнера;  
+    Запустите второй контейнер из образа debian в фоновом режиме, подключив папку /data из текущей рабочей директории на хостовой машине в /data контейнера;  
+    Подключитесь к первому контейнеру с помощью docker exec и создайте текстовый файл любого содержания в /data;  
+    Добавьте еще один файл в папку /data на хостовой машине;  
+    Подключитесь во второй контейнер и отобразите листинг и содержание файлов в /data контейнера.  
 ---
 
 		[vagrant@localhost ~]$ mkdir data
@@ -181,7 +181,7 @@ cbb6fab46eb174f627ba95a5936daa8dda4cfa49cfac438d4e02ff2cbc192fe6
 		docker.io/library/debian  stable      b45e3b4b08de  4 weeks ago   129 MB
 		docker.io/library/centos  centos8     5d0da3dc9764  4 months ago  239 MB
 		
-		[Google-fu](https://forums.docker.com/t/centos-image-is-not-running/14913)
+[Google-fu](https://forums.docker.com/t/centos-image-is-not-running/14913)
 
 		[vagrant@localhost ~]$ docker run -d -v ./data:/data 5d0da3dc9764 sleep 900
 		0e2cc4374921a6bfb44f506562ce046cf70965da8dc7da72057a83eb2f3d0a80
