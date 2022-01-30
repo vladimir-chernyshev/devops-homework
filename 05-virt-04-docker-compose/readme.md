@@ -146,6 +146,8 @@ docker-rocky.pkr.hcl:
 		+----------------------+---------------+--------+----------------------+--------+
 		| fd852huvj9phh6ossp6h | centos-7-base | centos | f2e6u62hbpkah20ftmhi | READY  |
 		+----------------------+---------------+--------+----------------------+--------+
+
+![Образ в Яндекс-Облаке](img/image.png)
 		
 Настройка [terraform](https://cloud.yandex.ru/docs/solutions/infrastructure-management/terraform-quickstart)
 
@@ -222,7 +224,18 @@ docker-rocky.pkr.hcl:
 
 		Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
+		[vagrant@localhost yc-terraform]$ ssh -i yc   yc-user@62.84.116.192
+		The authenticity of host '62.84.116.192 (62.84.116.192)' can't be established.
+		ECDSA key fingerprint is SHA256:cLngO7l9shwQJwK8YX2vWIKtpVQPPWAgHhG5i6BbVMo.
+		Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+		Warning: Permanently added '62.84.116.192' (ECDSA) to the list of known hosts.
+		yc-user@62.84.116.192: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+		[vagrant@localhost yc-terraform]$ uname -a
+		Linux localhost.localdomain 4.18.0-348.12.2.el8_5.x86_64 #1 SMP Wed Jan 19 17:53:40 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
 
 ![ВМ создана](img/vm.png)
+
+3. Создать ваш первый готовый к боевой эксплуатации компонент мониторинга, состоящий из стека микросервисов.
+---
 
 
