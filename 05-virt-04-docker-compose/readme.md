@@ -180,29 +180,29 @@ docker-rocky.pkr.hcl:
 [Конфигурация](https://cloud.yandex.com/en-ru/docs/compute/operations/vm-create/create-linux-vm
 ) виртуальной машины в файле main.tf:
 
-resource "yandex_compute_instance" "vm-1" {
-  name = "netology"
+		resource "yandex_compute_instance" "vm-1" {
+		  name = "netology"
 
-  resources {
-    cores  = 2
-    memory = 2
-  }
+		  resources {
+		    cores  = 2
+		    memory = 2
+		  }
 
-  boot_disk {
-    initialize_params {
-      image_id = "fd852huvj9phh6ossp6h"
-    }
-  }
+		  boot_disk {
+		    initialize_params {
+		      image_id = "fd852huvj9phh6ossp6h"
+		    }
+		  }
+		
+		  network_interface {
+		    subnet_id = "e9bcq4k91p3lbgccv2t3"
+		    nat       = true
+		  }
 
-  network_interface {
-    subnet_id = "e9bcq4k91p3lbgccv2t3"
-    nat       = true
-  }
-
-  metadata = {
-    ssh-keys = "centos:${file("~/yc-terraform/yc.pub")}"
-  }
-}
+		  metadata = {
+		    ssh-keys = "centos:${file("~/yc-terraform/yc.pub")}"
+		  }
+		}
 
 		[vagrant@localhost yc-terraform]$ terraform validate 
 		Success! The configuration is valid.
