@@ -151,8 +151,9 @@ docker-rocky.pkr.hcl:
 		
 Настройка [terraform](https://cloud.yandex.ru/docs/solutions/infrastructure-management/terraform-quickstart)
 
-		[vagrant@localhost ~]$ mkdir yc-terraform
-		[vagrant@localhost ~]$ vi yc-terraform/netology.tf
+		[vagrant@localhost ~]$ mkdir yc-terraform; cd yc-terraform
+		[vagrant@localhost yc-terraform]$ ssh-keygen -f yc
+		[vagrant@localhost ~]$ vi netology.tf
 
 		terraform {
 		  required_providers {
@@ -224,7 +225,7 @@ docker-rocky.pkr.hcl:
 
 		Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
-		[vagrant@localhost yc-terraform]$ ssh -i yc   yc-user@62.84.116.192
+		[vagrant@localhost yc-terraform]$ ssh -i yc   centos@62.84.116.192
 		The authenticity of host '62.84.116.192 (62.84.116.192)' can't be established.
 		ECDSA key fingerprint is SHA256:cLngO7l9shwQJwK8YX2vWIKtpVQPPWAgHhG5i6BbVMo.
 		Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
@@ -238,4 +239,47 @@ docker-rocky.pkr.hcl:
 3. Создать ваш первый готовый к боевой эксплуатации компонент мониторинга, состоящий из стека микросервисов.
 ---
 
+		[vagrant@localhost ansible]$ ansible-playbook -i inventory provision.yml 
 
+		PLAY [nodes] *******************************************************************
+
+		TASK [Gathering Facts] *********************************************************
+		ok: [node01.netology.cloud]
+
+		TASK [Create directory for ssh-keys] *******************************************
+		ok: [node01.netology.cloud]
+
+		TASK [Adding rsa-key in /root/.ssh/authorized_keys] ****************************
+		changed: [node01.netology.cloud]
+
+		TASK [Checking DNS] ************************************************************
+		changed: [node01.netology.cloud]
+
+		TASK [Installing tools] ********************************************************
+		changed: [node01.netology.cloud] => (item=['git', 'curl'])
+
+		TASK [Add docker repository] ***************************************************
+		changed: [node01.netology.cloud]
+
+		TASK [Installing docker package] ***********************************************
+		changed: [node01.netology.cloud] => (item=['docker-ce', 'docker-ce-cli', 'containerd.io'])
+
+		TASK [Enable docker daemon] ****************************************************
+		changed: [node01.netology.cloud]
+
+		TASK [Install docker-compose] **************************************************
+		changed: [node01.netology.cloud]
+
+		TASK [Synchronization] *********************************************************
+		changed: [node01.netology.cloud]
+
+		TASK [Pull all images in compose] **********************************************
+		changed: [node01.netology.cloud]
+
+		TASK [Up all services in compose] **********************************************
+		changed: [node01.netology.cloud]
+
+		PLAY RECAP *********************************************************************
+		node01.netology.cloud      : ok=12   changed=10   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+![Grafana](img/grafana.png)
