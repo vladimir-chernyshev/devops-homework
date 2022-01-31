@@ -225,12 +225,12 @@ docker-rocky.pkr.hcl:
 
 		Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
-		[vagrant@localhost yc-terraform]$ ssh -i yc   centos@62.84.116.192
-		The authenticity of host '62.84.116.192 (62.84.116.192)' can't be established.
+		[vagrant@localhost yc-terraform]$ ssh -i yc   centos@51.250.9.103
+		The authenticity of host '51.250.9.103 (51.250.9.103)' can't be established.
 		ECDSA key fingerprint is SHA256:cLngO7l9shwQJwK8YX2vWIKtpVQPPWAgHhG5i6BbVMo.
 		Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-		Warning: Permanently added '62.84.116.192' (ECDSA) to the list of known hosts.
-		yc-user@62.84.116.192: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+		Warning: Permanently added '51.250.9.103' (ECDSA) to the list of known hosts.
+		centos@51.250.9.103: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
 		[vagrant@localhost yc-terraform]$ uname -a
 		Linux localhost.localdomain 4.18.0-348.12.2.el8_5.x86_64 #1 SMP Wed Jan 19 17:53:40 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
 
