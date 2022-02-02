@@ -14,7 +14,7 @@
 2. Создать ваш первый Docker Swarm кластер в Яндекс.Облаке
 ---
 
-Сначала нужно создать service account с помощью UI Яндекс-облака, затем, согласно [документации](https://cloud.yandex.com/en-ru/docs/iam/operations/iam-token/create-for-sa#keys-create),
+Сначала нужно создать service account с помощью UI Яндекс-облака, затем, согласно [документации](https://cloud.yandex.com/en-ru/docs/iam/operations/iam-token/create-for-sa#keys-create),  
 		[vagrant@localhost terraform]$ yc iam key create --service-account-name netology --folder-id b1gjv4m87n9f3cm7phnf   --output key.json
 		id: aje0phigchm1079apvf0
 		service_account_id: ajelo3r8mt49k761tqdl
