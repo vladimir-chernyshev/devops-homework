@@ -82,15 +82,14 @@ Dockerfile:
 
 Предложите SQL-транзакцию для проведения данной операции.
 
-
-BEGIN;
-CREATE TABLE orders_1 (LIKE orders);
-INSERT INTO orders_1 SELECT * FROM orders WHERE price >499;
-DELETE FROM orders WHERE price >499;
-CREATE TABLE orders_2 (LIKE orders);
-INSERT INTO orders_2 SELECT * FROM orders WHERE price <=499;
-DELETE FROM orders WHERE price <=499;
-COMMIT;
+BEGIN;  
+CREATE TABLE orders_1 (LIKE orders);  
+INSERT INTO orders_1 SELECT * FROM orders WHERE price >499;  
+DELETE FROM orders WHERE price >499;  
+CREATE TABLE orders_2 (LIKE orders);  
+INSERT INTO orders_2 SELECT * FROM orders WHERE price <=499;  
+DELETE FROM orders WHERE price <=499;  
+COMMIT;  
 
 Можно ли было изначально исключить "ручное" разбиение при проектировании таблицы orders?
 
