@@ -105,9 +105,9 @@ COMMIT;
 
 Согласно [документации](https://www.postgresql.org/docs/9.4/ddl-constraints.html), нужно добавить Unique Constraints на столбец title при создании таблицы
 
-CREATE TABLE public.orders (  
-    id integer NOT NULL,  
-    title character varying(80) NOT NULL,  
-    price integer DEFAULT 0,  
-    UNIQUE (title)  
-);  
+		CREATE TABLE public.orders (  
+		    id integer NOT NULL,  
+		    title character varying(80) NOT NULL,  
+		    price integer DEFAULT 0,  
+		    UNIQUE (title)  
+		);  
