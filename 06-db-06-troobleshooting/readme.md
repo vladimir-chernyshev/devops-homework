@@ -77,7 +77,7 @@ postmaster invoked oom-killer
 
 "If you really want your process not to be killed by OOM-Killer, then there is another kernel parameter oom_score_adj. You can add a big negative value to that to reduce the chance your process gets killed."
 
- Механизм OOM-killer для каждого процесса подсчитывает некие oom-scores, процесс с наибольшим количеством oom-scores первый кандидат на завершение. Для уменьшения oom-scores процесса и, как следствие, вероятности завершения процесса предлагается присвоить большое отрицательное значение параметру oom_score_adj например, следующим образом:
+ Механизм OOM-killer для каждого процесса подсчитывает некие oom-scores, процесс с наибольшим количеством oom-scores становится кандидатом на завершение. Для уменьшения oom-scores процесса и, как следствие, вероятности завершения процесса, предлагается присвоить большое отрицательное значение параметру oom_score_adj например, следующим образом:
 Определим PID процесса СУБД 
 	
 		postgres=# SELECT pg_backend_pid();
