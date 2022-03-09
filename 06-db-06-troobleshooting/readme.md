@@ -26,6 +26,7 @@
 
 2.
 ---
+Перед выполнением задания познакомьтесь с документацией по [Redis latency troobleshooting](https://redis.io/topics/latency).
 Вы запустили инстанс Redis для использования совместно с сервисом, который использует механизм TTL. Причем отношение количества записанных key-value значений к количеству истёкших значений есть величина постоянная и увеличивается пропорционально количеству реплик сервиса.
 При масштабировании сервиса до N реплик вы увидели, что:
 - сначала рост отношения записанных значений к истекшим
@@ -37,6 +38,14 @@
 Latency due to AOF and disk I/O
 
 "Another source of latency is due to the Append Only File support on Redis. The AOF basically uses two system calls to accomplish its work. One is write(2) that is used in order to write data to the append only file, and the other one is fdatasync(2) that is used in order to flush the kernel file buffer on disk in order to ensure the durability level specified by the user."
+
+Еще одна вероятная причина блокировки записи может быть вызвана большим количеством удаляемых ключей - опирация записи блокируется до завершения процесса удаления ключей:
+
+"if the database has many many keys expiring in the same second, and these make up at least 25% of the current population of keys with an expire set, Redis can block in order to get the percentage of keys already expired below 25%.
+
+This approach is needed in order to avoid using too much memory for keys that are already expired, and usually is absolutely harmless since it's strange that a big number of keys are going to expire in the same exact second, but it is not impossible that the user used EXPIREAT extensively with the same Unix time.
+
+In short: be aware that many keys expiring at the same moment can be a source of latency."
 
 3.
 ---
@@ -54,6 +63,9 @@ InterfaceError: (InterfaceError) 2013: Lost connection to MySQL server during qu
 
 4.
 ---
+Перед выполнением задания ознакомтесь со статьей [Common PostgreSQL errors](https://www.percona.com/blog/2020/06/05/10-common-postgresql-errors/) из блога Percona.
+
+Вы решили перевести гис-систему из задачи 3 на PostgreSQL, так как прочитали в документации, что эта СУБД работает с большим объемом данных лучше, чем MySQL.
 После запуска пользователи начали жаловаться, что СУБД время от времени становится недоступной. В dmesg вы видите, что:
 
 postmaster invoked oom-killer
@@ -64,3 +76,16 @@ postmaster invoked oom-killer
 Согласно [блога Percona](https://www.percona.com/blog/2020/06/05/10-common-postgresql-errors/), процесс СУБД был прекращен из-за превышения имеющегося количества памяти процессом ядра OOM-killer. В этом сообщении [блога Percona](https://www.percona.com/blog/2019/08/02/out-of-memory-killer-or-savior/) приводится развернутое объяснение проблемы и предложены методы решения, например, модифицировать параметр процесса СУБД oom_score_adj
 
 "If you really want your process not to be killed by OOM-Killer, then there is another kernel parameter oom_score_adj. You can add a big negative value to that to reduce the chance your process gets killed."
+
+ Механизм OOM-killer для каждого процесса подсчитывает некие oom-scores, процесс с наибольшим количеством oom-scores первый кандидат на завершение. Для уменьшения oom-scores процесса и, как следствие, вероятности завершения процесса предлагается присвоить большое отрицательное значение параметру oom_score_adj например, следующим образом:
+Определим PID процесса СУБД 
+	
+		postgres=# SELECT pg_backend_pid();
+		pg_backend_pid 
+		----------------
+		   <PID> 
+		(1 row)
+Можно посмотреть текущее значение oom-scores процесса:
+		sudo cat /proc/<PID>/oom_score  
+Присвоить большое отрицательное значение (уменьшить итоговое значение oom_score)
+		sudo echo -100 > /proc/<PID>/oom_score_adj
