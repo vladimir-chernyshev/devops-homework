@@ -86,6 +86,8 @@ postmaster invoked oom-killer
 		   <PID> 
 		(1 row)
 Можно посмотреть текущее значение oom-scores процесса:
+
 		sudo cat /proc/<PID>/oom_score  
 Присвоить большое отрицательное значение (уменьшить итоговое значение oom_score)
+
 		sudo echo -100 > /proc/<PID>/oom_score_adj
