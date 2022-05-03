@@ -60,3 +60,22 @@
 [maven-metadata.xml](maven-metadata.xml)
 ![maven-metadata.xml](img/metadata.png)
 
+3. Знакомство с Maven
+---
+
+	[v@nb-chernyshev devops-homework]$ mvn --version
+	Apache Maven 3.8.5 (3599d3414f046de2324203b78ddcf9b5e4388aa0)
+	Maven home: /home/v/bin/apache-maven
+	Java version: 11.0.14.1, vendor: Red Hat, Inc., runtime: /usr/lib/jvm/java-11-openjdk-11.0.14.1.1-5.fc35.x86_64
+	Default locale: en_US, platform encoding: UTF-8
+	OS name: "linux", version: "5.16.20-200.fc35.x86_64", arch: "amd64", family: "unix"
+
+	[v@nb-chernyshev mvn]$ mvn package
+	[INFO] Scanning for projects...
+	[INFO] 
+	[INFO] --------------------< com.netology.app:simple-app >---------------------
+	[INFO] Building simple-app 1.0-SNAPSHOT
+	[INFO] --------------------------------[ jar ]---------------------------------
+	[..]
+
+[pom.xml](mvn/pom.xml)
