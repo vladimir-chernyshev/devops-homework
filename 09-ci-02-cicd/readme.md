@@ -51,4 +51,9 @@
 
 ![nexus](img/nx2.png)
 
+	$ touch 09-ci-02-cicd/dummy.tar.gz
 
+![nexus](img/nx3.png)
+
+
+![nexus](img/nx4.png)
