@@ -21,6 +21,19 @@
 	059c526604bbe11ca1ea030e26075d215205629b914cdaa05cc5b5a8ae30eff2
 
 
-НЕ МОГУ ПОНЯТЬ, ГДЕ ВЗЯТЬ УСТАНОВОЧНЫЙ zip-ФАЙЛ, О КОТОРОМ ГОВОРИТСЯ В ДОКУМЕНТАЦИИ.
+ [ГДЕ ВЗЯТЬ УСТАНОВОЧНЫЙ zip-ФАЙЛ](https://binaries.sonarsource.com/?prefix=Distribution/sonar-scanner-cli/)
 
-![second](img/doc.png)
+		[v@nb-chernyshev devops-homework]$ sonar-scanner --version
+		INFO: Scanner configuration file: /home/v/bin/sonar-scanner/conf/sonar-scanner.properties
+		INFO: Project root configuration file: NONE
+		INFO: SonarScanner 4.7.0.2747
+		INFO: Java 11.0.14.1 Red Hat, Inc. (64-bit)
+		INFO: Linux 5.16.20-200.fc35.x86_64 amd64
+
+Запуск сканнера для файла fail.py: 
+
+		[v@nb-chernyshev 09-ci-02-cicd]$ sonar-scanner   -Dsonar.projectKey=test   -Dsonar.sources=.   -Dsonar.host.url=http://127.0.0.1:9000   -Dsonar.login=a41c3893669707653c3c554cd906d9e4b440cca1 -Dsonar.coverage.exclusions=fail.py
+
+Результат после исправления ошибок:
+
+![sq](img/sq.png)
