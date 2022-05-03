@@ -55,5 +55,8 @@
 
 ![nexus](img/nx3.png)
 
-
 ![nexus](img/nx4.png)
+
+[maven-metadata.xml](maven-metadata.xml)
+![maven-metadata.xml](img/metadata.png)
+
