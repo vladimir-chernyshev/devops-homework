@@ -20,7 +20,6 @@
 	$ docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:8.7-community
 	059c526604bbe11ca1ea030e26075d215205629b914cdaa05cc5b5a8ae30eff2
 
-![first](img/sq.png)
 
 НЕ МОГУ ПОНЯТЬ, ГДЕ ВЗЯТЬ УСТАНОВОЧНЫЙ zip-ФАЙЛ, О КОТОРОМ ГОВОРИТСЯ В ДОКУМЕНТАЦИИ.
 
