@@ -126,3 +126,38 @@ docker-compose.yml:
 	v_teamcity_1 exited with code 1
 
 НЕОБХОДИМА ПОМОЩЬ ЭКСПЕРТОВ.
+Михаил Караханов:  
+"Попробуйте переделать в compose файле volume с обычного бинда на named volume -  я у себя исправил, все взлетело"  
+
+docker-compose.yml
+
+	version: "3"
+	services:
+	  teamcity:
+	    image: jetbrains/teamcity-server
+	    volumes:
+	      - type: volume
+	        source: data
+	        target: /data/teamcity_server/datadir
+	      - type: volume
+	        source: logs
+	        target: /opt/teamcity/logs
+	    ports:
+	      - 8111:8111
+	  teamcity-agent:
+	    image: jetbrains/teamcity-agent 
+	    depends_on:
+	      - teamcity
+	    volumes:
+	      - type: volume
+	        source: logs
+	        target: /data/teamcity_agent/conf 
+	    environment:
+	      SERVER_URL: "http://teamcity:8111"
+	
+	volumes:
+	    data:
+	    logs:
+	    agent:
+
+
