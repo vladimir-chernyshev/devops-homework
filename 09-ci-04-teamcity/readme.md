@@ -29,7 +29,7 @@ docker-compose.yml:
 	docker volume rm -a
 
 Запуск docker-compose от текущего непрепилегированного пользователя (v):
-![Running Docker Compose with Rootless Podman](https://fedoramagazine.org/use-docker-compose-with-podman-to-orchestrate-containers-on-fedora/)
+[Running Docker Compose with Rootless Podman](https://fedoramagazine.org/use-docker-compose-with-podman-to-orchestrate-containers-on-fedora/)
 
 	systemctl --user enable podman.socket
 	systemctl --user start podman.socket
@@ -90,6 +90,7 @@ docker-compose.yml:
 	drwxr-xr-x. 1 1000 1000 0 May 17 00:23 logs
 
 Повторный запуск docker-compose приводит к той же ошибке:
+
 	[v@nb-chernyshev ~]$ docker-compose up
 	Starting v_teamcity_1 ... done
 	Starting v_teamcity-agent_1 ... done
