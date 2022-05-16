@@ -4,6 +4,7 @@
 Подготовка инфраструктуры.
 ---
 docker-compose.yml:
+
 	version: "3"
 	services:
 	  teamcity:
