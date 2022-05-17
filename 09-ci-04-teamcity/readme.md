@@ -60,4 +60,5 @@ docker-compose.yml
 2. Сделайте autodetect конфигурации
 ![Рис. 2](img/pic2.png)
 
+Запуск autodetect неуспешен.
 ![Запуск autodetect неуспешен](img/pic2_2.png)
