@@ -62,3 +62,6 @@ docker-compose.yml
 
 Запуск autodetect неуспешен.
 ![Запуск autodetect неуспешен](img/pic2_2.png)
+
+3. Сохраните необходимые шаги, запустите первую сборку master'a
+![Запуск Build](img/pic3_1.png)
