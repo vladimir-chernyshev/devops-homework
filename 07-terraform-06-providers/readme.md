@@ -28,7 +28,26 @@
 
  Для создания очереди сообщений SQS используется ресурс *aws_sqs_queue* у которого есть параметр *name*.
  - С каким другим параметром конфликтует *name*? Приложите строчку кода, в которой это указано.
+
+file: terraform-provider-aws/internal/service/sqs/queue.go
+
+                "name": {
+                        Type:          schema.TypeString,
+                        Optional:      true,
+                        Computed:      true,
+                        ForceNew:      true,
+                        ConflictsWith: []string{"name_prefix"},
+                },
+                "name_prefix": {
+                        Type:          schema.TypeString,
+                        Optional:      true,
+                        Computed:      true,
+                        ForceNew:      true,
+                        ConflictsWith: []string{"name"},
+
  - Какая максимальная длина имени?
  - Какому регулярному выражению должно подчиняться имя?
 
-Я не знаю, как выполнить это задание. Эксперты, подсказывайте.
+Наверное, имеется в виду следующая [цитата](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-message-identifiers.html):
+
+		The name of a FIFO queue must end with the .fifo suffix. The suffix counts towards the 80-character queue name quota. 
