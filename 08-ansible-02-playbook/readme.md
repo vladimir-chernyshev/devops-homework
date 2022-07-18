@@ -197,5 +197,5 @@
 10. Готовый playbook выложите в свой репозиторий, поставьте тег `08-ansible-02-playbook` на фиксирующий коммит, в ответ предоставьте ссылку на него.
 ---
 
-Ссылка на соответствующий [тег](https://github.com/vladimir-chernyshev/devops-homework/releases/tag/08-ansible-02-playbook)
+Ссылка на соответствующий [тег](https://github.com/vladimir-chernyshev/devops-homework/tree/08-ansible-02-playbook/08-ansible-02-playbook)
 
